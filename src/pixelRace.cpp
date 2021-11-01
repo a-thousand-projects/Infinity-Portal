@@ -1,5 +1,5 @@
 #include "pixelRace.h"
-#include <Adafruit_NeoPixel.h>
+#include "pixelProgram.h"
 
 
 
@@ -27,7 +27,7 @@ PixelRace:: ~PixelRace(){
     
 }
 
-PixelRace:: PixelRace(){
+PixelRace:: PixelRace(PixelRing *pr):PixelProgram(pr){
     
 }
 void PixelRace:: SetForgroundColour(uint32_t colour)
@@ -96,16 +96,16 @@ void PixelRace:: RunStep()
                 pixelProperties[pos].position = GetMaxPosition();
             }
             backStep= pixelProperties[pos].position==0 ?GetMaxPosition()-1 : pixelProperties[pos].position-1;
-            GetNeoPixels()->setPixelColor(pixelProperties[pos].position,pixelProperties[pos].forgroundColour);
-            GetNeoPixels()->setPixelColor(backStep,backgroundColour);
+ //           GetNeoPixels()->setPixelColor(pixelProperties[pos].position,pixelProperties[pos].forgroundColour);
+ //           GetNeoPixels()->setPixelColor(backStep,backgroundColour);
         }
         else // just update current Position
         {
-            GetNeoPixels()->setPixelColor(pixelProperties[pos].position,pixelProperties[pos].forgroundColour);
+ //           GetNeoPixels()->setPixelColor(pixelProperties[pos].position,pixelProperties[pos].forgroundColour);
         }
         
     }
-    GetNeoPixels()->show();
+ //   GetNeoPixels()->show();
 }
 
 void PixelRace::SetPixelCount(uint8_t count)

@@ -1,4 +1,13 @@
 #include "pixelProgram.h"
+#include "pixelRing.h"
+
+PixelProgram::PixelProgram(PixelRing *pr)
+{
+    pixelRing = pr;
+};
+
+PixelProgram::~PixelProgram()
+{}
 
 void PixelProgram::SetValueOne(int8_t value) 
 {
@@ -23,10 +32,4 @@ void PixelProgram::SetValueFour(int8_t value)
 void PixelProgram::RunStep()
 {
 
-}
-void PixelProgram:: Begin(uint8_t minP, uint8_t maxP,Adafruit_NeoPixel *pixels)
-{
-    minPosition = minP;
-    maxPosition = maxP;
-    neoPixels = pixels;
 }

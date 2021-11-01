@@ -1,13 +1,12 @@
 #include "menu.h"
 #include "pixelRing.h"
-Menu::Menu()
+Menu::Menu(PixelRing *pr):PixelProgram(pr)
 {}
 Menu:: ~Menu()
 {}
 
-void Menu::Begin(uint8_t minPosition, uint8_t maxPosition,PixelRing *pixelRing)
+void Menu::Begin()
 {
-  Menu::PixelProgram::Begin(minPosition, maxPosition,pixels);
     // Set the Ring to White to White
     Serial.println("Menu Begin");
     DisplayMenu();
@@ -18,7 +17,8 @@ void Menu::DisplayMenu()
 
     // Number of Items by Pixel Length and Spacer tailLength
     uint8_t totalLength = CurrentMenu->MenuItemCount * (MinMenuPixellength);
-    uint8_t spacerPixelLength = (GetNeoPixels()->numPixels() -  totalLength) /CurrentMenu->MenuItemCount ;
+    uint8_t spacerPixelLength;
+   // spacerPixelLength = (GetNeoPixels()->numPixels() -  totalLength) /CurrentMenu->MenuItemCount ;
     // Spacer must a an Even Number
     if (spacerPixelLength%2 > 0)
         spacerPixelLength +=1;
@@ -35,23 +35,23 @@ void Menu::DisplayMenu()
         // write in Half the Spacer
         for (uint8_t l = 0; l < spacerPixelLength/2;l++)
         {
-            GetNeoPixels()->setPixelColor(px,BLACK);
+           // GetNeoPixels()->setPixelColor(px,BLACK);
             px+=1;
         }
         // write in the Menu Item
         for (uint8_t l = 0; l < MinMenuPixellength;l++)
         {           
-            GetNeoPixels()->setPixelColor(px,CurrentMenu->MenuItems[i].Colour);
+          //  GetNeoPixels()->setPixelColor(px,CurrentMenu->MenuItems[i].Colour);
             px+=1;
         }
         // write in Half the Spacer
         for (uint8_t l = 0; l < spacerPixelLength/2;l++)
         {
-            GetNeoPixels()->setPixelColor(px,BLACK);
+           // GetNeoPixels()->setPixelColor(px,BLACK);
             px+=1;
         }
     }
-    GetNeoPixels()->show();
+    //PixelRing()->show();
 }
 
 void Menu::SetMenu(menuCollection_t *menu)

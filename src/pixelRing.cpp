@@ -4,14 +4,16 @@
 
 
 PixelRing::PixelRing()
-{}
+{
+     neoPixels = new Adafruit_NeoPixel(NUMPIXELS, NEO_PIN, NEO_GRB + NEO_KHZ800 );
+}
 PixelRing:: ~PixelRing()
 {}
 
 void PixelRing::begin()
 {
     Serial.println("Created Pixel Ring");
-    neoPixels = new Adafruit_NeoPixel(NUMPIXELS, NEO_PIN, NEO_GRB + NEO_KHZ800 );
+   
     neoPixels->begin();
     neoPixels->setBrightness(100);
     blinkRing(neoPixels->Color(0,255,0),3,500);

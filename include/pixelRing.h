@@ -23,12 +23,7 @@ class PixelRing
     public:
         PixelRing();
         ~PixelRing();
-        
-
         void begin();
-
-
-
         void blinkRing(uint32_t colour,uint8_t blinks, uint16_t delay);
         void PixelRing::rotate(int8_t numPos);
         void setRingColour(uint32_t colour);

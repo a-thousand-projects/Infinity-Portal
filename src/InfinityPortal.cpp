@@ -50,8 +50,8 @@ unsigned long delayTime;
 uint8_t newSpeed;
 
 PixelRing pixelRing;
-PixelRace pixelRace;
-Menu menu;
+PixelRace pixelRace(&pixelRing);
+Menu menu (&pixelRing);
 
 PixelProgram * currentPixelProgram;
 
@@ -73,7 +73,7 @@ void setup() {
   pixelRing.begin();
 
   menu.SetMenu(&MainMenu);
-  menu.Begin(0,72,&pixelRing);
+  //menu.Begin(0,72,&pixelRing);
   //pixelRace.begin(0,72,pixelRing.pixels);
   //pixelRace.SetBackgroundColour(pixelRing.pixels->Color(20,20,20));
   

@@ -33,9 +33,9 @@ private:
    // Adafruit_NeoPixel *neoPixels;
 public:
     void begin(uint8_t minPosition, uint8_t maxPosition,Adafruit_NeoPixel *pixels);
+   
+    PixelRace(PixelRing *pr);
     ~PixelRace();
-    PixelRace();
-
     void SetPixelCount(uint8_t count);
     void SetForgroundColour(uint32_t colour);
     void SetBackgroundColour(uint32_t colour);
