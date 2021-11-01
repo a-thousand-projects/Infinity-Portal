@@ -2,10 +2,6 @@
 	"folders": [
 		{
 			"path": "."
-		},
-		{
-			"name": "InfinityPortal",
-			"path": "..\\..\\..\\..\\..\\InfinityPortal\\InfinityPortal"
 		}
 	],
 	"settings": {}
