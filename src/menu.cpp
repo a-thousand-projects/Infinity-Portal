@@ -1,7 +1,9 @@
 #include "menu.h"
 #include "pixelRing.h"
 Menu::Menu(PixelRing *pr):PixelProgram(pr)
-{}
+{
+    pixelRing = pr;
+}
 Menu:: ~Menu()
 {}
 
@@ -17,8 +19,8 @@ void Menu::DisplayMenu()
 
     // Number of Items by Pixel Length and Spacer tailLength
     uint8_t totalLength = CurrentMenu->MenuItemCount * (MinMenuPixellength);
-    uint8_t spacerPixelLength;
-   // spacerPixelLength = (GetNeoPixels()->numPixels() -  totalLength) /CurrentMenu->MenuItemCount ;
+    uint16_t spacerPixelLength;
+    spacerPixelLength = (NUMPIXELS -  totalLength) /CurrentMenu->MenuItemCount ;
     // Spacer must a an Even Number
     if (spacerPixelLength%2 > 0)
         spacerPixelLength +=1;
@@ -35,23 +37,24 @@ void Menu::DisplayMenu()
         // write in Half the Spacer
         for (uint8_t l = 0; l < spacerPixelLength/2;l++)
         {
-           // GetNeoPixels()->setPixelColor(px,BLACK);
+            
+            pixelRing->setPixel(px,BLACK);
             px+=1;
         }
         // write in the Menu Item
         for (uint8_t l = 0; l < MinMenuPixellength;l++)
         {           
-          //  GetNeoPixels()->setPixelColor(px,CurrentMenu->MenuItems[i].Colour);
+            pixelRing->setPixel(px,CurrentMenu->MenuItems[i].Colour);
             px+=1;
         }
         // write in Half the Spacer
         for (uint8_t l = 0; l < spacerPixelLength/2;l++)
         {
-           // GetNeoPixels()->setPixelColor(px,BLACK);
+            pixelRing->setPixel(px,BLACK);
             px+=1;
-        }
+        };
     }
-    //PixelRing()->show();
+    pixelRing->show();
 }
 
 void Menu::SetMenu(menuCollection_t *menu)
@@ -66,12 +69,18 @@ void Menu::RunStep(){};
 void Menu::SetValueOne(int8_t value){};
 void Menu::SetValueTwo(int8_t value){};
 void Menu::SetValueThree(int8_t value){};
+
 void Menu::SetValueFour(int8_t value)
 {
+    if (value == 0)
+        return;
+   uint16_t currentValue = GetMenuRotaryValue();
    
-    if (GetMenuRotaryValue() != value){
+    if (currentValue != value){
+    Serial.print("current value: ");Serial.print(currentValue),Serial.print(" | value ");Serial.println(value);
         SetMenuRotaryValue(value);
-         Serial.print("MENU Select : ");Serial.println(value);
+    //    pixelRing->rotate(value);
+     //   pixelRing->show();
     }
     
 };

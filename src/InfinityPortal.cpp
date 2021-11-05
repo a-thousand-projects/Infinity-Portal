@@ -73,7 +73,7 @@ void setup() {
   pixelRing.begin();
 
   menu.SetMenu(&MainMenu);
-  //menu.Begin(0,72,&pixelRing);
+  menu.Begin();
   //pixelRace.begin(0,72,pixelRing.pixels);
   //pixelRace.SetBackgroundColour(pixelRing.pixels->Color(20,20,20));
   
@@ -124,7 +124,7 @@ int setRotaryValue(ATPRotary *rotary,String name,int value, int min, int max)
 
 void RotaryLoop()
 {
-  rotaryFour.push();
+ // rotaryFour.push();
   currentPixelProgram->SetValueOne(rotaryOne.rotate());
   currentPixelProgram->SetValueTwo(rotaryTwo.rotate());
   currentPixelProgram->SetValueThree(rotaryThree.rotate());
