@@ -9,22 +9,22 @@ PixelProgram::PixelProgram(PixelRing *pr)
 PixelProgram::~PixelProgram()
 {}
 
-void PixelProgram::SetValueOne(int8_t value) 
+void PixelProgram::SetValueOne(int16_t value) 
 {
 
 }
 
-void PixelProgram::SetValueTwo(int8_t value)
-{
-    
-}
-
-void PixelProgram::SetValueThree(int8_t value)
+void PixelProgram::SetValueTwo(int16_t value)
 {
     
 }
 
-void PixelProgram::SetValueFour(int8_t value)
+void PixelProgram::SetValueThree(int16_t value)
+{
+    
+}
+
+void PixelProgram::SetValueFour(int16_t value)
 {
     
 }

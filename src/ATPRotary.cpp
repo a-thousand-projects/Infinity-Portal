@@ -43,9 +43,6 @@ ATPRotary::ATPRotary(byte pinA, byte pinB, byte pinS)
   _setInputPins();
 }
 
-
-
-
 /**
 	SET TRIGGER
 	Sets the trigger for rotations / button press either to high or low.
@@ -58,7 +55,6 @@ void ATPRotary::setTrigger(byte i)
   _trigger = i;
   _setInputPins();
 }
-
 
 /**
 	SET DEBOUNCE DELAY
@@ -76,7 +72,6 @@ void ATPRotary::setDebounceDelay(int i)
   _debounceRDelay = i;
 }
 
-
 /**
 	SET ERROR CORRECTION DELAY
 	Sets the error correction delay delay time in milliseconds.
@@ -91,7 +86,6 @@ void ATPRotary::setErrorDelay(int i)
   _errorDelay = i;
 }
 
-
 /**
 	GET ROTARY DIRECTION
 	Gets the direction the rotary encoder is turned.
@@ -103,6 +97,7 @@ void ATPRotary::setErrorDelay(int i)
 	@since vATP*/
 int8_t ATPRotary::rotate()
 {
+	
   int _dir = 0x00;
   _updateTime();
   
@@ -110,7 +105,8 @@ int8_t ATPRotary::rotate()
 
     _statusA = ( digitalRead(_pinA) == _trigger ? true : false);
     _statusB = ( digitalRead(_pinB) == _trigger ? true : false);
-	 
+	
+
     if( !_statusA && _statusA_prev ){
 
       if ( _statusB != _statusA ) {
@@ -135,7 +131,6 @@ int8_t ATPRotary::rotate()
   return _dir;
 
 }
-
 
 /**
 	GET BUTTON PUSH

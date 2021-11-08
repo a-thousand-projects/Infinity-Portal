@@ -17,8 +17,9 @@
 
 class PixelRing 
 {
+    public: Adafruit_NeoPixel *neoPixels;
     protected: 
-        Adafruit_NeoPixel *neoPixels;
+        
         uint32_t pixelArray[NUMPIXELS];
     public:
         

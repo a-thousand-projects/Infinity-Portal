@@ -34,10 +34,10 @@ class Menu: public  PixelProgram
         void DisplayMenu();
 
         void RunStep();
-        void SetValueOne(int8_t value);
-        void SetValueTwo(int8_t value);
-        void SetValueThree(int8_t value);
-        void SetValueFour(int8_t value);
+        void SetValueOne(int16_t value);
+        void SetValueTwo(int16_t value);
+        void SetValueThree(int16_t value);
+        void SetValueFour(int16_t value);
 
         void SetMenuRotaryValue(uint16_t value){menuRotaryValue = value;};
         uint16_t GetMenuRotaryValue(){return menuRotaryValue; };

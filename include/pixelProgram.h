@@ -22,10 +22,10 @@ class PixelProgram
        PixelProgram::~PixelProgram();
 
         virtual void RunStep();
-        virtual void SetValueOne(int8_t value);
-        virtual void SetValueTwo(int8_t value);
-        virtual void SetValueThree(int8_t value);
-        virtual void SetValueFour(int8_t value);
+        virtual void SetValueOne(int16_t value);
+        virtual void SetValueTwo(int16_t value);
+        virtual void SetValueThree(int16_t value);
+        virtual void SetValueFour(int16_t value);
 };
 
 #endif

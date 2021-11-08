@@ -49,31 +49,27 @@ void PixelRing::rotate(int8_t numPos)
 
     if (numPos > 0) // Forward
     {
-       // Serial.print("Rorate Forward: ");Serial.println(numPos);
         ppointer = NUMPIXELS-1;
         pixSaved = getPixel(ppointer);
         while (ppointer>0)
         {
-           
-            pix = getPixel(ppointer-1);
-            
+            pix = getPixel(ppointer-1);   
             setPixel(ppointer,pix);
             ppointer--;
         }
-         neoPixels->setPixelColor(0,pixSaved);
+         setPixel(0,pixSaved);
     }
     else // Backwards
     {
-        Serial.println("Rorate Backwards");
-        ppointer=0;
+        ppointer=0; 
         pixSaved = getPixel(0);
-        while (ppointer < *neoPixels->getPixels()-1)
+        while (ppointer < NUMPIXELS)
         {
-            pix = getPixel(ppointer+2);
-           setPixel(ppointer+1,pix);
-            ppointer--;
+            pix = getPixel(ppointer+1);
+           setPixel(ppointer,pix);
+            ppointer++;
         }
-         setPixel(ppointer-1,pixSaved);
+         setPixel(NUMPIXELS-1,pixSaved);
     }
     
       

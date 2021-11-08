@@ -10,9 +10,11 @@
 #define ENCODER_THREE_PIN_2 7
 #define ENCODER_THREE_SW    14
 
-#define ENCODER_FOUR_PIN_1 9
-#define ENCODER_FOUR_PIN_2 10
+#define ENCODER_FOUR_PIN_1 11//9
+#define ENCODER_FOUR_PIN_2 12//10
 #define ENCODER_FOUR_SW    20
+
+#define ENCODER_STEPS       4
 
 #define AUDIO_PIN           A0
 

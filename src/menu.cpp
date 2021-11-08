@@ -66,21 +66,31 @@ void Menu::SetMenu(menuCollection_t *menu)
 
 
 void Menu::RunStep(){};
-void Menu::SetValueOne(int8_t value){};
-void Menu::SetValueTwo(int8_t value){};
-void Menu::SetValueThree(int8_t value){};
+void Menu::SetValueOne(int16_t value){};
+void Menu::SetValueTwo(int16_t value){};
+/*void Menu::SetValueThree(int8_t value){
+    if (value == 0)
+        return;
+    Serial.print("R3 | value ");Serial.println(value);
+};*/
 
-void Menu::SetValueFour(int8_t value)
+
+void Menu::SetValueFour(int16_t value){
+    if (value == 0)
+        return;
+    //Serial.print("R4 | value ");Serial.println(value);
+};
+void Menu::SetValueThree(int16_t value)
 {
     if (value == 0)
         return;
-   uint16_t currentValue = GetMenuRotaryValue();
+  // uint16_t currentValue = GetMenuRotaryValue();
    
-    if (currentValue != value){
-    Serial.print("current value: ");Serial.print(currentValue),Serial.print(" | value ");Serial.println(value);
+  //  if (currentValue != value){
+    Serial.print(" | value ");Serial.println(value);
         SetMenuRotaryValue(value);
-    //    pixelRing->rotate(value);
-     //   pixelRing->show();
-    }
+        pixelRing->rotate(value);
+        pixelRing->show();
+   // }
     
 };
