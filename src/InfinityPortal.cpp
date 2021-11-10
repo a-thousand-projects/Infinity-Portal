@@ -79,10 +79,10 @@ void rotaryTimer()
     test = 0;
   }
 
- //rotaryOne.service();
- //rotaryTwo.service();
+ rotaryOne.service();
+ rotaryTwo.service();
  rotaryThree.service();
- //rotaryFour.service();
+ rotaryFour.service();
  //test++;
 }
 

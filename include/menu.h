@@ -18,6 +18,7 @@ typedef struct {
     String MenuName;
     uint8_t MenuItemCount; 
     menuItem_t MenuItems[10];
+    menuItem_t currentMenu;
 } menuCollection_t;
 
 
