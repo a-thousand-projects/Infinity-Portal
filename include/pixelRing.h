@@ -14,6 +14,8 @@
 #define ORANGE 0xFFAA00
 #define CYAN 0x00D5FF
 #define BLACK 0x000000
+#define WHITE 0xFFFFFF
+#define GREY 0x202020
 
 class PixelRing 
 {

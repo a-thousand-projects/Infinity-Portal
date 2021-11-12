@@ -5,6 +5,8 @@
 #include "pixelRing.h"
 
 
+typedef void (*callBackPrt)();
+
 class PixelProgram
 {
 
@@ -12,11 +14,11 @@ class PixelProgram
         PixelRing *pixelRing;
         uint8_t minPosition;
         uint8_t maxPosition;
+        callBackPrt callBack;
     public: 
 
         uint8_t GetMaxPosition() {return maxPosition;} 
         uint8_t GetMinPosition() {return minPosition;} 
-        //PixelRing *PixelRing() {return pixelRing;} 
 
        PixelProgram(PixelRing* pr);
        PixelProgram::~PixelProgram();
@@ -26,6 +28,9 @@ class PixelProgram
         virtual void SetValueTwo(int16_t value);
         virtual void SetValueThree(int16_t value);
         virtual void SetValueFour(int16_t value);
+        virtual void Clicked(uint8_t buttonNo);
+        virtual void DoubleClick(uint8_t buttonNo);
+        virtual void AttachCallBack(void (*cback)());
 };
 
 #endif

@@ -2,7 +2,7 @@
 #include "pixelRing.h"
 Menu::Menu(PixelRing *pr):PixelProgram(pr)
 {
-    pixelRing = pr;
+  //  pixelRing = pr;
 }
 Menu:: ~Menu()
 {}
@@ -14,8 +14,14 @@ void Menu::Begin()
     DisplayMenu();
 }
 
+void Menu::AttachCallBack(void (*cback)())
+{
+    callBack = cback;
+}
+
 void Menu::DisplayMenu()
 {
+    // TODO : This is an alignment issue when menu has an Odd Number of Menu Items
     // Calculate Center Position spacing
     uint8_t PixSpacing = (NUMPIXELS/ CurrentMenu->MenuItemCount) ;
     // Put in centre pixel
@@ -46,15 +52,39 @@ void Menu::SetMenu(menuCollection_t *menu)
     CurrentMenu = menu;
 }
 
-
-
-
 void Menu::RunStep(){};
 void Menu::SetValueOne(int16_t value){};
 void Menu::SetValueTwo(int16_t value){};
 void Menu::SetValueThree(int16_t value){};
 
+void Menu::Clicked(uint8_t buttonNo)
+{
+    if (buttonNo == 4)
+    {
+        menuItem_t *menu = GetSelectedMenu();
+        pixelRing->blinkRing(menu->Colour,1,200);
+        delay(50);
+        DisplayMenu();
+        if (callBack != NULL)
+            (*callBack)();
+    }
+   
+}
 
+// Gets the current menu at Position 0
+// Returns Null is none (which should never be the case)
+menuItem_t* Menu::GetSelectedMenu()
+{
+    for (uint8_t i=0;i<CurrentMenu->MenuItemCount;i++)
+    {
+        if (CurrentMenu->MenuItems[i].Position == 0)
+        {
+            return &CurrentMenu->MenuItems[i];
+            break;
+        }
+    }
+    return nullptr;
+}
 
 void Menu::SetValueFour(int16_t value)
 {
@@ -92,5 +122,6 @@ void Menu::SetValueFour(int16_t value)
 
         }
     }
+
     DisplayMenu();
 };

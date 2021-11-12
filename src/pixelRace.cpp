@@ -3,8 +3,10 @@
 
 
 
-void PixelRace:: begin(uint8_t min, uint8_t max,Adafruit_NeoPixel *pixels){
-    begin(min, max, pixels);
+PixelRace:: PixelRace(PixelRing *pr,uint8_t minPosition, uint8_t maxPosition)
+    :PixelProgram(pr)
+{
+    Serial.println("Pixel Race Created");
     pCount = 1;
 
     for (uint8_t i = 0; i <PIXEL_RACE_NOOF_PIXELS;i++)
@@ -15,21 +17,19 @@ void PixelRace:: begin(uint8_t min, uint8_t max,Adafruit_NeoPixel *pixels){
         pixelProperties[i].stepControl = 0;
         
     }
-    pixelProperties[0].forgroundColour = pixels->Color(255,0,0);
-    pixelProperties[1].forgroundColour = pixels->Color(0,255,0);
-    pixelProperties[2].forgroundColour = pixels->Color(0,0,255);
+    pixelProperties[0].forgroundColour = RED;
+    pixelProperties[1].forgroundColour = GREEN;
+    pixelProperties[2].forgroundColour = BLUE;
     
     
-    forgroundColour = pixels->Color(255,0,0);
+    forgroundColour = RED;;
 }
 
 PixelRace:: ~PixelRace(){
     
 }
 
-PixelRace:: PixelRace(PixelRing *pr):PixelProgram(pr){
-    
-}
+
 void PixelRace:: SetForgroundColour(uint32_t colour)
 {
     forgroundColour = colour;
@@ -96,16 +96,17 @@ void PixelRace:: RunStep()
                 pixelProperties[pos].position = GetMaxPosition();
             }
             backStep= pixelProperties[pos].position==0 ?GetMaxPosition()-1 : pixelProperties[pos].position-1;
- //           GetNeoPixels()->setPixelColor(pixelProperties[pos].position,pixelProperties[pos].forgroundColour);
- //           GetNeoPixels()->setPixelColor(backStep,backgroundColour);
+            pixelRing->setPixel(pixelProperties[pos].position,pixelProperties[pos].forgroundColour);
+            pixelRing->setPixel(backStep,backgroundColour);
         }
         else // just update current Position
         {
- //           GetNeoPixels()->setPixelColor(pixelProperties[pos].position,pixelProperties[pos].forgroundColour);
+           pixelRing->setPixel(pixelProperties[pos].position,pixelProperties[pos].forgroundColour);
         }
         
     }
- //   GetNeoPixels()->show();
+    pixelRing->setRingColour(RED);
+    pixelRing->show();
 }
 
 void PixelRace::SetPixelCount(uint8_t count)

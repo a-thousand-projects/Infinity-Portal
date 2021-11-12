@@ -3,7 +3,7 @@
 
 menuCollection_t MainMenu = {
     "Main menu",
-    4,
+    6,
     {
        { "Item 1",
         RED,
@@ -21,7 +21,15 @@ menuCollection_t MainMenu = {
        { "Item 4",
        PURPLE,
        YELLOW,
-       3}
+       3},
+        { "Item 5",
+       CYAN,
+       GREEN,
+       4},
+       { "Item 6",
+       WHITE,
+       GREEN,
+       5}
     },
   
 

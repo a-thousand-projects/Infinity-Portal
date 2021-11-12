@@ -20,7 +20,7 @@ typedef struct {
     String MenuName;
     uint8_t MenuItemCount; 
     menuItem_t MenuItems[10];
-    menuItem_t currentMenuItem;
+    uint8_t currentMenuItem;
 } menuCollection_t;
 
 
@@ -40,6 +40,9 @@ class Menu: public  PixelProgram
         void SetValueTwo(int16_t value);
         void SetValueThree(int16_t value);
         void SetValueFour(int16_t value);
+        void Clicked(uint8_t buttonNo);
+        menuItem_t* Menu::GetSelectedMenu();
+        void AttachCallBack(void (*cback)());
 
         void SetMenuRotaryValue(uint16_t value){menuRotaryValue = value;};
         uint16_t GetMenuRotaryValue(){return menuRotaryValue; };
