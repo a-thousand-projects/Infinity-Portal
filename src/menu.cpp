@@ -16,46 +16,28 @@ void Menu::Begin()
 
 void Menu::DisplayMenu()
 {
-
-    // Number of Items by Pixel Length and Spacer tailLength
-    uint8_t totalLength = CurrentMenu->MenuItemCount * (MinMenuPixellength);
-    uint16_t spacerPixelLength;
-    spacerPixelLength = (NUMPIXELS -  totalLength) /CurrentMenu->MenuItemCount ;
-    // Spacer must a an ODD Number
-    if (spacerPixelLength%2 > 0)
-        spacerPixelLength +=1;
-
-    Serial.print("Spacer length :");
-    Serial.println(spacerPixelLength);
-
-
-
-    uint8_t i = 0;
-    uint8_t px = 0;
-    for (i = 0; i < CurrentMenu->MenuItemCount;i++) 
+    // Calculate Center Position spacing
+    uint8_t PixSpacing = (NUMPIXELS/ CurrentMenu->MenuItemCount) ;
+    // Put in centre pixel
+    for (uint8_t i=0;i<CurrentMenu->MenuItemCount;i++)
     {
-        // write in Half the Spacer
-        for (uint8_t l = 0; l < spacerPixelLength/2;l++)
+        bool isCentre = CurrentMenu->MenuItems[i].Position * PixSpacing==0;
+        if (isCentre)
+            pixelRing->setPixel(CurrentMenu->MenuItems[i].Position * PixSpacing,CurrentMenu->MenuItems[i].HiColour);
+        else
+            pixelRing->setPixel(CurrentMenu->MenuItems[i].Position * PixSpacing,CurrentMenu->MenuItems[i].Colour);
+        // Draw in sides of menu
+        for (uint8_t s=0;s<(MinMenuPixellength-1)/2;s++)
         {
-            
-            pixelRing->setPixel(px,BLACK);
-            px+=1;
+            pixelRing->setPixel((CurrentMenu->MenuItems[i].Position*PixSpacing)+1+s,CurrentMenu->MenuItems[i].Colour);
+            int8_t d = (CurrentMenu->MenuItems[i].Position*PixSpacing)-1-s;
+            if (d<0)
+                d =  NUMPIXELS-1-s;
+            pixelRing->setPixel(d,CurrentMenu->MenuItems[i].Colour);
         }
-        // write in the Menu Item
-        for (uint8_t l = 0; l < MinMenuPixellength;l++)
-        {           
-            pixelRing->setPixel(px,CurrentMenu->MenuItems[i].Colour);
-            CurrentMenu->MenuItems[i].Position = px - (MinMenuPixellength/2);
-            px+=1;
-        }
-        Serial.print("Menu : "),Serial.print(CurrentMenu->MenuItems[i].Itemname);Serial.println(CurrentMenu->MenuItems[i].Position);
-        // write in Half the Spacer
-        for (uint8_t l = 0; l < spacerPixelLength/2;l++)
-        {
-            pixelRing->setPixel(px,BLACK);
-            px+=1;
-        };
+        
     }
+    
     pixelRing->show();
 }
 
@@ -76,32 +58,39 @@ void Menu::SetValueThree(int16_t value){};
 
 void Menu::SetValueFour(int16_t value)
 {
+    uint8_t PixSpacing = (NUMPIXELS/ CurrentMenu->MenuItemCount) ;
     if (value == 0)
         return;
     Serial.print(" | value ");Serial.println(value);
-        SetMenuRotaryValue(value);
+    for (uint8_t r=0;r< PixSpacing;r++)
+    {
         pixelRing->rotate(value);
-   
-        for (uint8_t i = 0; i < CurrentMenu->MenuItemCount;i++) 
-        {
-            if (CurrentMenu->MenuItems[i].Position + value == 0xff)
-            {
-                CurrentMenu->MenuItems[i].Position = NUMPIXELS-1;
-            } else 
-            if (CurrentMenu->MenuItems[i].Position + value == NUMPIXELS)
-            {
-                CurrentMenu->MenuItems[i].Position = 0;
-            }
-            CurrentMenu->MenuItems[i].Position += value;
-            Serial.print("Menu : "),Serial.print(CurrentMenu->MenuItems[i].Itemname);Serial.print("=>");Serial.println(CurrentMenu->MenuItems[i].Position);
-            if (CurrentMenu->MenuItems[i].Position == 0)
-            {
-                pixelRing->setPixel(0,GREEN);
-            }
-            else
-            {
-                pixelRing->setPixel(CurrentMenu->MenuItems[i].Position,CurrentMenu->MenuItems[i].Colour);
-            }
-        }
+        pixelRing->show();
+        delay(10);
+    }
+    
     pixelRing->show();
+    if (value>0)
+    {
+        for (uint8_t i=0;i<CurrentMenu->MenuItemCount;i++)
+        {
+            CurrentMenu->MenuItems[i].Position ++;
+            if (CurrentMenu->MenuItems[i].Position>CurrentMenu->MenuItemCount-1)
+                CurrentMenu->MenuItems[i].Position=0;
+        }
+    }
+    else if (value<0)
+    {
+        for (uint8_t i=0;i<CurrentMenu->MenuItemCount;i++)
+        {
+            CurrentMenu->MenuItems[i].Position --;
+            if (CurrentMenu->MenuItems[i].Position < 0)
+            {
+                CurrentMenu->MenuItems[i].Position = CurrentMenu->MenuItemCount-1;
+            }
+            Serial.print("Menu: ");Serial.print(CurrentMenu->MenuItems[i].Itemname);Serial.print(" : ");Serial.println(CurrentMenu->MenuItems[i].Position);
+
+        }
+    }
+    DisplayMenu();
 };

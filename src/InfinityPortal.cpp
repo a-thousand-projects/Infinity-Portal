@@ -66,9 +66,6 @@ PixelProgram * currentPixelProgram;
 //------- LOCAL PROTOTYPES -------------
 void changeMode();
 
-
-
-
 void rotaryTimer()
 {
   test++;
@@ -108,6 +105,7 @@ digitalWrite(LED_BUILTIN,0);
 
   pixelRing.begin();
 
+  MainMenu.currentMenuItem = MainMenu.MenuItems[0];
   menu.SetMenu(&MainMenu);
   menu.Begin();
 

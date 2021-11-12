@@ -9,16 +9,18 @@
 
 
 typedef struct {
+
     String Itemname;
     uint32_t Colour;
-    uint8_t Position;
+    uint32_t HiColour;
+    int8_t Position;
 } menuItem_t;
 
 typedef struct {
     String MenuName;
     uint8_t MenuItemCount; 
     menuItem_t MenuItems[10];
-    menuItem_t currentMenu;
+    menuItem_t currentMenuItem;
 } menuCollection_t;
 
 
@@ -33,7 +35,6 @@ class Menu: public  PixelProgram
         void SetMenu(menuCollection_t *menu);
         void Begin();
         void DisplayMenu();
-
         void RunStep();
         void SetValueOne(int16_t value);
         void SetValueTwo(int16_t value);

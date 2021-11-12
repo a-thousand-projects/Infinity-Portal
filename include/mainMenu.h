@@ -7,18 +7,23 @@ menuCollection_t MainMenu = {
     {
        { "Item 1",
         RED,
-        1
+        GREEN,
+        0,
        },
        { "Item 2",
        BLUE,
-       2},
+       GREEN,
+       1},
        { "Item 3",
        ORANGE,
-       3},
+       GREEN,
+       2},
        { "Item 4",
        PURPLE,
-       4}
+       YELLOW,
+       3}
     },
+  
 
 };
 
