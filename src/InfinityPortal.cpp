@@ -1,6 +1,5 @@
 #include <Arduino.h>
 #include <Adafruit_NeoPixel.h>
-//#include <ATPRotary.h>
 #include <ClickEncoder.h>
 #include "EveryTimerB.h"
 #include "config.h"
@@ -10,9 +9,6 @@
 #include "mainMenu.h"
 
 #define PROG 1
-
-// Encoder Pins
-
 
 ClickEncoder  rotaryOne(ENCODER_ONE_PIN_1,ENCODER_ONE_PIN_2,ENCODER_ONE_SW,ENCODER_STEPS);
 ClickEncoder  rotaryTwo(ENCODER_TWO_PIN_1,ENCODER_TWO_PIN_2,ENCODER_TWO_SW,ENCODER_STEPS);
@@ -58,7 +54,7 @@ unsigned long delayTime;
 uint8_t newSpeed;
 
 PixelRing pixelRing;
-PixelRace pixelRace(&pixelRing,0,NUMPIXELS-1);
+PixelRace pixelRace(&pixelRing,0,72);//;(&pixelRing,0,NUMPIXELS-1);
 
 Menu menu (&pixelRing);
 
@@ -87,7 +83,18 @@ void rotaryTimer()
 
 void doSomething()
 {
-  //currentPixelProgram = &pixelRace;
+  if (currentPixelProgram != &menu)
+  {
+    Serial.println("Back to menu");
+    menu.Begin();
+    currentPixelProgram = &menu;
+  }
+  else{
+    pixelRace.Begin();
+    currentPixelProgram = &pixelRace;
+  }
+  
+  
 }
 
 // ------- SET UP ---------------
@@ -113,13 +120,9 @@ digitalWrite(LED_BUILTIN,0);
 
   pixelRing.begin();
 
-
   menu.SetMenu(&MainMenu);
   menu.Begin();
 
-  //pixelRace.SetBackgroundColour(GREY);
-
-  
   currentPixelProgram = &menu;
 
 }
@@ -149,15 +152,15 @@ uint16_t audio;
 void loop(){
 
 
-speed = 10;
+speed = 100;
 
  //   audio = analogRead(AUDIO_PIN);
     RotaryLoop();
 
 
-      if (millis()-delayTime> ((speed)))
+  //    if (millis()-delayTime> ((speed)))
       {
-       currentPixelProgram->RunStep();
+        currentPixelProgram->RunStep();
         delayTime = millis();
       } 
 }

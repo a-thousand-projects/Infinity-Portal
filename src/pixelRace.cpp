@@ -1,12 +1,20 @@
 #include "pixelRace.h"
 #include "pixelProgram.h"
+#include "pixelRing.h"
 
+uint8_t raceSpeed = 10;
 
-
-PixelRace:: PixelRace(PixelRing *pr,uint8_t minPosition, uint8_t maxPosition)
-    :PixelProgram(pr)
+PixelRace:: PixelRace(PixelRing *pr,uint8_t min, uint8_t max):PixelProgram(pr)
 {
-    Serial.println("Pixel Race Created");
+    minPosition = min;
+    maxPosition = max;
+}
+
+void PixelRace::Begin()
+{
+    Serial.println("Pixel Race Begin");
+    pixelRing->clear();
+    pixelRing->show();
     pCount = 1;
 
     for (uint8_t i = 0; i <PIXEL_RACE_NOOF_PIXELS;i++)
@@ -21,8 +29,6 @@ PixelRace:: PixelRace(PixelRing *pr,uint8_t minPosition, uint8_t maxPosition)
     pixelProperties[1].forgroundColour = GREEN;
     pixelProperties[2].forgroundColour = BLUE;
     
-    
-    forgroundColour = RED;;
 }
 
 PixelRace:: ~PixelRace(){
@@ -45,16 +51,19 @@ void changeValue(uint8_t *value,String name,int32_t changeBy,uint8_t min,uint8_t
 {
     
     Serial.print(name);Serial.print(*value);Serial.print(" change by: ");Serial.println(changeBy);
+    
     if (*value > max)
         *value = wrap==true? min:max;
     
     if (*value < min)
             *value = wrap==true? max:min;
 
+    *value += changeBy;
+
 }
 
 // Change the Speed of the First Pixel
-void PixelRace::SetValueOne(int8_t value)
+void PixelRace::SetValueOne(int16_t value)
 {
     if (value == 0)
         return;
@@ -62,29 +71,41 @@ void PixelRace::SetValueOne(int8_t value)
 }
 
 // Change the Speed of the First Pixel
-void PixelRace::SetValueTwo(int8_t value)
+void PixelRace::SetValueTwo(int16_t value)
 {
+   
     if (value == 0)
         return;
     changeValue(&pixelProperties[1].step,"StepTwo: ",value,STEP_VALUE_MIN,STEP_VALUE_MAX,false);
+   
 }
 
 // Change the Speed of the First Pixel
-void PixelRace::SetValueThree(int8_t value)
+void PixelRace::SetValueThree(int16_t value)
 {
+    
     if (value == 0)
         return;
     changeValue(&pixelProperties[2].step,"StepThree: ",value,STEP_VALUE_MIN,STEP_VALUE_MAX,false);
+    
+}
+void PixelRace::SetValueFour(int16_t value)
+{
+    if (value == 0)
+        return;
+    raceSpeed += value;
 }
 
 void PixelRace:: RunStep()
 {
+
     uint8_t backStep;
     for (uint8_t pos=0;pos<PIXEL_RACE_NOOF_PIXELS;pos++)
     {
         pixelProperties[pos].stepControl++;
         if (pixelProperties[pos].stepControl >= pixelProperties[pos].step)
         {
+            
             pixelProperties[pos].stepControl = 0;
             pixelProperties[pos].position++;
             if (pixelProperties[pos].position +1 > GetMaxPosition())
@@ -96,6 +117,7 @@ void PixelRace:: RunStep()
                 pixelProperties[pos].position = GetMaxPosition();
             }
             backStep= pixelProperties[pos].position==0 ?GetMaxPosition()-1 : pixelProperties[pos].position-1;
+           // Serial.print("Pos: ");Serial.print(pixelProperties[pos].position);Serial.print(" => ");Serial.println(pixelProperties[pos].forgroundColour);
             pixelRing->setPixel(pixelProperties[pos].position,pixelProperties[pos].forgroundColour);
             pixelRing->setPixel(backStep,backgroundColour);
         }
@@ -103,10 +125,11 @@ void PixelRace:: RunStep()
         {
            pixelRing->setPixel(pixelProperties[pos].position,pixelProperties[pos].forgroundColour);
         }
-        
+        delay(raceSpeed);
     }
-    pixelRing->setRingColour(RED);
+   
     pixelRing->show();
+   
 }
 
 void PixelRace::SetPixelCount(uint8_t count)

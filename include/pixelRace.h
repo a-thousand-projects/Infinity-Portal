@@ -5,7 +5,6 @@
 #include "pixelProgram.h"
 #include "pixelRing.h"
 #include <stdio.h>
-#include "Adafruit_NeoPixel.h"
 
 #define PIXEL_RACE_NOOF_PIXELS 3
 #define STEP_VALUE_MAX 10
@@ -30,16 +29,18 @@ private:
     uint32_t backgroundColour;
 public:
    
-    PixelRace(PixelRing *pr,uint8_t minPosition, uint8_t maxPosition);
+    //PixelRace(PixelRing *pr,uint8_t minPosition, uint8_t maxPosition);
+    PixelRace(PixelRing *pr,uint8_t min,uint8_t max);
     ~PixelRace();
     void SetPixelCount(uint8_t count);
     void SetForgroundColour(uint32_t colour);
     void SetBackgroundColour(uint32_t colour);
     void RunStep();
-    void SetValueOne(int8_t value);
-    void SetValueTwo(int8_t value);
-    void SetValueThree(int8_t value);
-    
+    void SetValueOne(int16_t value);
+    void SetValueTwo(int16_t value);
+    void SetValueThree(int16_t value);
+    void SetValueFour(int16_t value);
+    void Begin();
     
 
 } ;
