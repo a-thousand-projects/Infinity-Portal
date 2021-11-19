@@ -54,7 +54,7 @@ unsigned long delayTime;
 uint8_t newSpeed;
 
 PixelRing pixelRing;
-PixelRace pixelRace(&pixelRing,0,72);//;(&pixelRing,0,NUMPIXELS-1);
+PixelRace pixelRace(&pixelRing,0,NUMPIXELS);
 
 Menu menu (&pixelRing);
 
@@ -81,7 +81,7 @@ void rotaryTimer()
 
 }
 
-void doSomething()
+void doSomething(int menuId)
 {
   if (currentPixelProgram != &menu)
   {
@@ -90,8 +90,11 @@ void doSomething()
     currentPixelProgram = &menu;
   }
   else{
-    pixelRace.Begin();
-    currentPixelProgram = &pixelRace;
+    menuItem_t* selectedMenu = menu.GetSelectedMenu();
+    Serial.print("Menu Selected = ");Serial.println(selectedMenu->Itemname);
+    selectedMenu->program->Begin();
+    currentPixelProgram = selectedMenu->program;
+
   }
   
   
@@ -119,6 +122,8 @@ digitalWrite(LED_BUILTIN,0);
   Serial.println("Starting");
 
   pixelRing.begin();
+
+  MainMenu.MenuItems[0].program = (PixelProgram*)&pixelRace;
 
   menu.SetMenu(&MainMenu);
   menu.Begin();

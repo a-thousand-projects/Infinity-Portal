@@ -9,11 +9,12 @@
 
 
 typedef struct {
-
+    uint8_t Id;
     String Itemname;
     uint32_t Colour;
     uint32_t HiColour;
     int8_t Position;
+    PixelProgram *  program;
 } menuItem_t;
 
 typedef struct {
@@ -32,7 +33,7 @@ class Menu: public  PixelProgram
     public:
         Menu(PixelRing *pr);
         ~Menu();
-        void SetMenu(menuCollection_t *menu);
+        void SetMenu(menuCollection_t *menuItem);
         void Begin();
         void DisplayMenu();
         void RunStep();
@@ -42,7 +43,7 @@ class Menu: public  PixelProgram
         void SetValueFour(int16_t value);
         void Clicked(uint8_t buttonNo);
         menuItem_t* Menu::GetSelectedMenu();
-        void AttachCallBack(void (*cback)());
+        void AttachCallBack(void (*cback)(int));
 
         void SetMenuRotaryValue(uint16_t value){menuRotaryValue = value;};
         uint16_t GetMenuRotaryValue(){return menuRotaryValue; };

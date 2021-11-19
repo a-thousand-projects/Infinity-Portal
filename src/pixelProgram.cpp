@@ -9,9 +9,11 @@ PixelProgram::PixelProgram(PixelRing *pr)
 PixelProgram::~PixelProgram()
 {}
 
+void PixelProgram::Begin(){
 
+}
 
-void PixelProgram::AttachCallBack(void (*cback)())
+void PixelProgram::AttachCallBack(void (*cback)(int))
 {
     callBack = cback;
 }

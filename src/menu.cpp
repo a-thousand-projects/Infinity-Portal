@@ -2,7 +2,7 @@
 #include "pixelRing.h"
 Menu::Menu(PixelRing *pr):PixelProgram(pr)
 {
-  //  pixelRing = pr;
+
 }
 Menu:: ~Menu()
 {}
@@ -14,7 +14,7 @@ void Menu::Begin()
     DisplayMenu();
 }
 
-void Menu::AttachCallBack(void (*cback)())
+void Menu::AttachCallBack(void (*cback)(int))
 {
     callBack = cback;
 }
@@ -66,7 +66,10 @@ void Menu::Clicked(uint8_t buttonNo)
         delay(50);
         DisplayMenu();
         if (callBack != NULL)
-            (*callBack)();
+        {
+            menuItem_t *menuItem = GetSelectedMenu();
+            (*callBack)(menuItem->Id);
+        }
     }
    
 }
@@ -91,7 +94,7 @@ void Menu::SetValueFour(int16_t value)
     uint8_t PixSpacing = (NUMPIXELS/ CurrentMenu->MenuItemCount) ;
     if (value == 0)
         return;
-    Serial.print(" | value ");Serial.println(value);
+  //  Serial.print(" | value ");Serial.println(value);
     for (uint8_t r=0;r< PixSpacing;r++)
     {
         pixelRing->rotate(value);
@@ -118,7 +121,7 @@ void Menu::SetValueFour(int16_t value)
             {
                 CurrentMenu->MenuItems[i].Position = CurrentMenu->MenuItemCount-1;
             }
-            Serial.print("Menu: ");Serial.print(CurrentMenu->MenuItems[i].Itemname);Serial.print(" : ");Serial.println(CurrentMenu->MenuItems[i].Position);
+    //        Serial.print("Menu: ");Serial.print(CurrentMenu->MenuItems[i].Itemname);Serial.print(" : ");Serial.println(CurrentMenu->MenuItems[i].Position);
 
         }
     }
