@@ -1,5 +1,6 @@
 #include "menu.h"
 #include "pixelRing.h"
+#include <ArduinoLog.h>
 Menu::Menu(PixelRing *pr):PixelProgram(pr)
 {
 
@@ -10,7 +11,7 @@ Menu:: ~Menu()
 void Menu::Begin()
 {
     // Set the Ring to White to White
-    Serial.println("Menu Begin");
+    Log.info("Menu Begin" CR);
     DisplayMenu();
 }
 
@@ -21,7 +22,8 @@ void Menu::AttachCallBack(void (*cback)(int))
 
 void Menu::DisplayMenu()
 {
-    // TODO : This is an alignment issue when menu has an Odd Number of Menu Items
+    pixelRing->clear();
+    // TODO : There is an alignment issue when menu has an Odd Number of Menu Items
     // Calculate Center Position spacing
     uint8_t PixSpacing = (NUMPIXELS/ CurrentMenu->MenuItemCount) ;
     // Put in centre pixel

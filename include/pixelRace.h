@@ -41,6 +41,8 @@ public:
     void SetValueThree(int16_t value);
     void SetValueFour(int16_t value);
     void Begin();
+    void AttachCallBack(void (*cback)(int));
+    void Clicked(uint8_t buttonNo);
     
 
 } ;

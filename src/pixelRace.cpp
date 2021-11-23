@@ -1,18 +1,35 @@
 #include "pixelRace.h"
 #include "pixelProgram.h"
 #include "pixelRing.h"
-
+#include <ArduinoLog.h>
 uint8_t raceSpeed = 10;
 
 PixelRace:: PixelRace(PixelRing *pr,uint8_t min, uint8_t max):PixelProgram(pr)
 {
-    minPosition = min;
+    minPosition = min; 
     maxPosition = max;
+}
+
+void PixelRace::AttachCallBack(void (*cback)(int))
+{
+    callBack = cback;
+}
+
+void PixelRace::Clicked(uint8_t buttonNo)
+{
+    if (buttonNo == 4)
+    {
+        if (callBack != NULL)
+        {
+            (*callBack)(-1);
+        }
+    }
+   
 }
 
 void PixelRace::Begin()
 {
-    Serial.println("Pixel Race Begin");
+    Log.info("PixelRace Race Begin" CR);
     pixelRing->clear();
     pixelRing->show();
     pCount = 1;
@@ -36,6 +53,8 @@ PixelRace:: ~PixelRace(){
 }
 
 
+
+
 void PixelRace:: SetForgroundColour(uint32_t colour)
 {
     forgroundColour = colour;
@@ -49,9 +68,6 @@ void PixelRace:: SetBackgroundColour(uint32_t colour)
 
 void changeValue(uint8_t *value,String name,int32_t changeBy,uint8_t min,uint8_t max,bool wrap )
 {
-    
-    Serial.print(name);Serial.print(*value);Serial.print(" change by: ");Serial.println(changeBy);
-    
     if (*value > max)
         *value = wrap==true? min:max;
     

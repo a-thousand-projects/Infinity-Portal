@@ -7,6 +7,7 @@
 #include "pixelRace.h"
 #include "menu.h"
 #include "mainMenu.h"
+#include <ArduinoLog.h>
 
 #define PROG 1
 
@@ -81,17 +82,29 @@ void rotaryTimer()
 
 }
 
-void doSomething(int menuId)
+void buttonCallBack(int menuId)
 {
+  if (menuId == -1)
+  {
+     currentPixelProgram = &menu;
+     currentPixelProgram->Begin();
+     return;
+  }
+
   if (currentPixelProgram != &menu)
   {
-    Serial.println("Back to menu");
+    Log.infoln("Back to menu");
     menu.Begin();
     currentPixelProgram = &menu;
   }
   else{
     menuItem_t* selectedMenu = menu.GetSelectedMenu();
-    Serial.print("Menu Selected = ");Serial.println(selectedMenu->Itemname);
+    if (!selectedMenu->program)
+    {
+      Log.infoln("No Program attached to menu");
+      return;
+    }
+    Log.info("Menu Selected = %s" CR,selectedMenu->Itemname.c_str());
     selectedMenu->program->Begin();
     currentPixelProgram = selectedMenu->program;
 
@@ -102,15 +115,22 @@ void doSomething(int menuId)
 
 // ------- SET UP ---------------
 void setup() {
+ // Set up Serial Port
+ Serial.begin(115200);
+ // Set up logging
+ Log.begin(LOG_LEVEL_VERBOSE,&Serial);
+ Log.setShowLevel(true);
+ Log.notice("Infinity Portal Starting up" CR);
 
-pinMode(LED_BUILTIN,OUTPUT);
-digitalWrite(LED_BUILTIN,0);
+ pinMode(LED_BUILTIN,OUTPUT);
+ digitalWrite(LED_BUILTIN,0);
  TimerB2.initialize();
  TimerB2.attachInterrupt(rotaryTimer);
  TimerB2.setPeriod(1000);
 
   // Set up Menu Callback
-  menu.AttachCallBack(doSomething);
+  menu.AttachCallBack(buttonCallBack);
+  pixelRace.AttachCallBack(buttonCallBack);
 
   lastDebounceTime = 0;
   btnState = BTN_STATE_HIGH;
@@ -118,8 +138,7 @@ digitalWrite(LED_BUILTIN,0);
   // Set up Audio Pin
   pinMode(A0, INPUT);
   delayTime = 0;
-  Serial.begin(115200);
-  Serial.println("Starting");
+  
 
   pixelRing.begin();
 
@@ -143,11 +162,11 @@ void RotaryLoop()
   if (buttorFour != ClickEncoder::Open)
   {
     switch (buttorFour) {
-      case ClickEncoder::Pressed: Serial.println("Pressed"); currentPixelProgram->Clicked(4);break;
-      case ClickEncoder::Held: Serial.println("Held"); currentPixelProgram->Clicked(4);break;
-      case ClickEncoder::Released:Serial.println("Released"); currentPixelProgram->Clicked(4);break;
-      case ClickEncoder::Clicked:Serial.println("Clicked"); currentPixelProgram->Clicked(4);break;
-      case ClickEncoder::DoubleClicked:Serial.println("Double Click"); currentPixelProgram->Clicked(4);break;
+      case ClickEncoder::Pressed: Log.noticeln("Pressed"); currentPixelProgram->Clicked(4);break;
+      case ClickEncoder::Held: Log.noticeln("Held"); currentPixelProgram->Clicked(4);break;
+      case ClickEncoder::Released:Log.noticeln("Released"); currentPixelProgram->Clicked(4);break;
+      case ClickEncoder::Clicked:Log.noticeln("Clicked"); currentPixelProgram->Clicked(4);break;
+      case ClickEncoder::DoubleClicked:Log.noticeln("Double Click"); currentPixelProgram->Clicked(4);break;
     }
   }
 }

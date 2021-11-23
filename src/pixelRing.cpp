@@ -1,7 +1,7 @@
 #include <Adafruit_NeoPixel.h>
 #include "pixelRing.h"
 #include "config.h"
-
+#include <ArduinoLog.h>
 
 PixelRing::PixelRing()
 {
@@ -13,8 +13,7 @@ PixelRing:: ~PixelRing()
 
 void PixelRing::begin()
 {
-    Serial.println("Created Pixel Ring");
-   
+    Log.info("Pixel Ring: Begin" CR);
     neoPixels->begin();
     neoPixels->setBrightness(100);
     blinkRing(neoPixels->Color(0,255,0),2,500);
