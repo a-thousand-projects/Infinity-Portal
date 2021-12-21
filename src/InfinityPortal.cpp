@@ -5,6 +5,7 @@
 #include "config.h"
 #include "PixelRing.h"
 #include "pixelRace.h"
+#include "RandomChaos.h"
 #include "menu.h"
 #include "mainMenu.h"
 #include <ArduinoLog.h>
@@ -55,7 +56,9 @@ unsigned long delayTime;
 uint8_t newSpeed;
 
 PixelRing pixelRing;
+// Set up Pixel Programs
 PixelRace pixelRace(&pixelRing,0,NUMPIXELS);
+RandomChaos randomChaos (&pixelRing);
 
 Menu menu (&pixelRing);
 
@@ -143,7 +146,7 @@ void setup() {
   pixelRing.begin();
 
   MainMenu.MenuItems[0].program = (PixelProgram*)&pixelRace;
-
+  MainMenu.MenuItems[1].program = (PixelProgram*)&randomChaos;
   menu.SetMenu(&MainMenu);
   menu.Begin();
 

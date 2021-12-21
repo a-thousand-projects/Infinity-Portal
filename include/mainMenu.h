@@ -14,7 +14,7 @@ menuCollection_t MainMenu = {
 
        },
        { 2,
-       "Item 2",
+       "Random Chaos",
        BLUE,
        GREEN,
        1},
@@ -25,7 +25,7 @@ menuCollection_t MainMenu = {
        2},
        { 4,
        "Item 4",
-       PURPLE,
+       VIOLET,
        YELLOW,
        3},
         { 5,

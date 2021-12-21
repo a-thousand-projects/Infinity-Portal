@@ -1,3 +1,4 @@
+
 #define ENCODER_ONE_PIN_1 2
 #define ENCODER_ONE_PIN_2 3
 #define ENCODER_ONE_SW    14
@@ -18,5 +19,5 @@
 
 #define AUDIO_PIN           A0
 
-#define NEO_PIN        21
-#define NUMPIXELS 72
+#define NEO_PIN       10
+#define NUMPIXELS 71
