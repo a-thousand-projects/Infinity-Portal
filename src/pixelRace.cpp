@@ -3,7 +3,7 @@
 #include "pixelRing.h"
 #include <ArduinoLog.h>
 uint8_t raceSpeed = 10;
-
+uint32_t delayTime = 0;
 PixelRace:: PixelRace(PixelRing *pr,uint8_t min, uint8_t max):PixelProgram(pr)
 {
     minPosition = min; 
@@ -15,9 +15,9 @@ void PixelRace::AttachCallBack(void (*cback)(int))
     callBack = cback;
 }
 
-void PixelRace::Clicked(uint8_t buttonNo)
+void PixelRace::LongPress(uint8_t buttonNo)
 {
-    if (buttonNo == 4)
+    if (buttonNo == BTN_EXIT)
     {
         if (callBack != NULL)
         {
@@ -27,12 +27,27 @@ void PixelRace::Clicked(uint8_t buttonNo)
    
 }
 
+void PixelRace::Clicked(uint8_t buttonNo)
+{
+    switch (buttonNo)
+    {
+        case BTN_UP: 
+            ChangeGlobalSpeed(1);
+        break;
+        case BTN_DOWN:
+            ChangeGlobalSpeed(-1);
+        break;
+    }
+}
+
 void PixelRace::Begin()
 {
     Log.info("PixelRace Race Begin" CR);
     pixelRing->clear();
     pixelRing->show();
     pCount = 1;
+
+    delayTime = millis();
 
     for (uint8_t i = 0; i <PIXEL_RACE_NOOF_PIXELS;i++)
     {
@@ -105,15 +120,21 @@ void PixelRace::SetValueThree(int16_t value)
     changeValue(&pixelProperties[2].step,"StepThree: ",value,STEP_VALUE_MIN,STEP_VALUE_MAX,false);
     
 }
-void PixelRace::SetValueFour(int16_t value)
+void PixelRace::ChangeGlobalSpeed(int16_t value)
 {
-    if (value == 0)
-        return;
-    raceSpeed += value;
+    changeValue(&raceSpeed,"StepSpeed: ",value,1,15,false);
+    Log.info("Race Speed : %d" CR,raceSpeed);
 }
 
 void PixelRace:: RunStep()
 {
+    uint32_t millDelay = map(raceSpeed,1,15,10,100);
+     if (millis()-delayTime < millDelay)
+     {
+        return;
+     }
+     else
+        delayTime = millis();
 
     uint8_t backStep;
     for (uint8_t pos=0;pos<PIXEL_RACE_NOOF_PIXELS;pos++)
@@ -141,7 +162,8 @@ void PixelRace:: RunStep()
         {
            pixelRing->setPixel(pixelProperties[pos].position,pixelProperties[pos].forgroundColour);
         }
-        delay(raceSpeed);
+        
+       
     }
    
     pixelRing->show();

@@ -44,4 +44,5 @@ void PixelProgram::RunStep()
 }
 
  void PixelProgram::Clicked(uint8_t buttonNo){};
- void PixelProgram::DoubleClick(uint8_t buttonNo){};
+ void PixelProgram::LongPress(uint8_t buttonNo){};
+

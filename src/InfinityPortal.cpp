@@ -1,7 +1,7 @@
 #include <Arduino.h>
 #include <Adafruit_NeoPixel.h>
-#include <ClickEncoder.h>
-#include "EveryTimerB.h"
+
+//#include "EveryTimerB.h"
 #include "config.h"
 #include "PixelRing.h"
 #include "pixelRace.h"
@@ -9,16 +9,12 @@
 #include "menu.h"
 #include "mainMenu.h"
 #include <ArduinoLog.h>
+#include <AceButton.h>
+
+using namespace ace_button;
 
 #define PROG 1
 
-ClickEncoder  rotaryOne(ENCODER_ONE_PIN_1,ENCODER_ONE_PIN_2,ENCODER_ONE_SW,ENCODER_STEPS);
-ClickEncoder  rotaryTwo(ENCODER_TWO_PIN_1,ENCODER_TWO_PIN_2,ENCODER_TWO_SW,ENCODER_STEPS);
-ClickEncoder  rotaryThree(ENCODER_THREE_PIN_1,ENCODER_THREE_PIN_2,ENCODER_THREE_SW,ENCODER_STEPS);
-ClickEncoder  rotaryFour(ENCODER_FOUR_PIN_1,ENCODER_FOUR_PIN_2,ENCODER_FOUR_SW,ENCODER_STEPS);
-
-
-EveryTimerB TimerRotary;
 
 
 // Limits
@@ -49,10 +45,18 @@ volatile uint32_t heartBeat = 0;
 #define BTN_STATE_HIGH HIGH
 
 
+// buttons
+AceButton button_1(BTN_1);
+AceButton button_2(BTN_2);
+AceButton button_3(BTN_3);
+AceButton button_Up(BTN_UP);
+AceButton button_Down(BTN_DOWN);
+
+
 uint8_t SettingMode;
 uint32_t lastDebounceTime;
 uint8_t btnState;
-unsigned long delayTime;
+
 uint8_t newSpeed;
 
 PixelRing pixelRing;
@@ -68,22 +72,7 @@ PixelProgram * currentPixelProgram;
 //------- LOCAL PROTOTYPES -------------
 void changeMode();
 
-void rotaryTimer()
-{
-  heartBeat++;
-  if (heartBeat > 500)
-  {
-    uint8_t l = digitalRead(LED_BUILTIN);
-    digitalWrite(LED_BUILTIN,!l);
-    heartBeat = 0;
-  }
 
- rotaryOne.service();
- rotaryTwo.service();
- rotaryThree.service();
- rotaryFour.service();
-
-}
 
 void buttonCallBack(int menuId)
 {
@@ -116,6 +105,23 @@ void buttonCallBack(int menuId)
   
 }
 
+void ButtonEventHandler(AceButton*  button , uint8_t eventType,uint8_t  buttonState )
+{
+  Log.info("Event %i" CR,eventType);
+  uint8_t btn = button->getPin();
+  switch (eventType) {
+    
+    case AceButton::kEventClicked:
+      Log.info("Button %d Clicked" CR,btn);
+        currentPixelProgram->Clicked(btn);
+      break;
+    case AceButton::kEventLongPressed:
+      Log.info("Button %d LONG Pressed" CR,btn);
+      currentPixelProgram->LongPress(btn);
+      break;
+  }
+}
+
 // ------- SET UP ---------------
 void setup() {
  // Set up Serial Port
@@ -127,20 +133,35 @@ void setup() {
 
  pinMode(LED_BUILTIN,OUTPUT);
  digitalWrite(LED_BUILTIN,0);
- TimerB2.initialize();
- TimerB2.attachInterrupt(rotaryTimer);
- TimerB2.setPeriod(1000);
+
+
+  // Set up buttons
+  pinMode(BTN_1,INPUT_PULLUP);
+  pinMode(BTN_2,INPUT_PULLUP);
+  pinMode(BTN_3,INPUT_PULLUP);
+  pinMode(BTN_UP,INPUT_PULLUP);
+  pinMode(BTN_DOWN,INPUT_PULLUP);
+
+  ButtonConfig* buttonConfig = ButtonConfig::getSystemButtonConfig();
+  buttonConfig->setEventHandler(ButtonEventHandler);
+  buttonConfig->setFeature(ButtonConfig::kFeatureClick);
+  //buttonConfig->setFeature(ButtonConfig::kFeatureDoubleClick);
+  //buttonConfig->setFeature(ButtonConfig::kFeatureSuppressClickBeforeDoubleClick);
+  buttonConfig->setFeature(ButtonConfig::kFeatureLongPress);
+  
+
+
 
   // Set up Menu Callback
   menu.AttachCallBack(buttonCallBack);
   pixelRace.AttachCallBack(buttonCallBack);
-
+  randomChaos.AttachCallBack(buttonCallBack);
   lastDebounceTime = 0;
   btnState = BTN_STATE_HIGH;
 
   // Set up Audio Pin
   pinMode(A0, INPUT);
-  delayTime = 0;
+
   
 
   pixelRing.begin();
@@ -154,40 +175,22 @@ void setup() {
 
 }
 
-void RotaryLoop()
-{
-  currentPixelProgram->SetValueOne(rotaryOne.getValue());
-  currentPixelProgram->SetValueTwo(rotaryTwo.getValue());
-  currentPixelProgram->SetValueThree(rotaryThree.getValue());
-  currentPixelProgram->SetValueFour(rotaryFour.getValue());
-  ClickEncoder::Button buttorFour = rotaryFour.getButton();
 
-  if (buttorFour != ClickEncoder::Open)
-  {
-    switch (buttorFour) {
-      case ClickEncoder::Pressed: Log.noticeln("Pressed"); currentPixelProgram->Clicked(4);break;
-      case ClickEncoder::Held: Log.noticeln("Held"); currentPixelProgram->Clicked(4);break;
-      case ClickEncoder::Released:Log.noticeln("Released"); currentPixelProgram->Clicked(4);break;
-      case ClickEncoder::Clicked:Log.noticeln("Clicked"); currentPixelProgram->Clicked(4);break;
-      case ClickEncoder::DoubleClicked:Log.noticeln("Double Click"); currentPixelProgram->Clicked(4);break;
-    }
-  }
-}
+
 
 uint16_t audio;
 
+void ButtonCheck(){
+  button_1.check();
+  button_2.check();
+  button_3.check();
+  button_Up.check();
+  button_Down.check();
+}
+
 void loop(){
 
-
-speed = 100;
-
+  ButtonCheck();
  //   audio = analogRead(AUDIO_PIN);
-    RotaryLoop();
-
-
-  //    if (millis()-delayTime> ((speed)))
-      {
-        currentPixelProgram->RunStep();
-        delayTime = millis();
-      } 
+  currentPixelProgram->RunStep();
 }

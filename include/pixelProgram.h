@@ -29,8 +29,11 @@ class PixelProgram
         virtual void SetValueThree(int16_t value);
         virtual void SetValueFour(int16_t value);
         virtual void Clicked(uint8_t buttonNo);
-        virtual void DoubleClick(uint8_t buttonNo);
+        virtual void LongPress(uint8_t buttonNo);
         virtual void AttachCallBack(void (*cback)(int));
+
+        
 };
 
 #endif
+

@@ -37,16 +37,15 @@ class Menu: public  PixelProgram
         void Begin();
         void DisplayMenu();
         void RunStep();
-        void SetValueOne(int16_t value);
-        void SetValueTwo(int16_t value);
-        void SetValueThree(int16_t value);
-        void SetValueFour(int16_t value);
+        void MoveMenu(int8_t value);
+        void SelectMenu();
         void Clicked(uint8_t buttonNo);
         menuItem_t* Menu::GetSelectedMenu();
         void AttachCallBack(void (*cback)(int));
 
         void SetMenuRotaryValue(uint16_t value){menuRotaryValue = value;};
         uint16_t GetMenuRotaryValue(){return menuRotaryValue; };
+
 };
 
 #endif 

@@ -20,6 +20,8 @@ void Menu::AttachCallBack(void (*cback)(int))
     callBack = cback;
 }
 
+
+
 void Menu::DisplayMenu()
 {
     pixelRing->clear();
@@ -55,14 +57,10 @@ void Menu::SetMenu(menuCollection_t *menu)
 }
 
 void Menu::RunStep(){};
-void Menu::SetValueOne(int16_t value){};
-void Menu::SetValueTwo(int16_t value){};
-void Menu::SetValueThree(int16_t value){};
 
-void Menu::Clicked(uint8_t buttonNo)
+
+void Menu::SelectMenu()
 {
-    if (buttonNo == 4)
-    {
         menuItem_t *menu = GetSelectedMenu();
         pixelRing->blinkRing(menu->Colour,1,200);
         delay(50);
@@ -72,8 +70,6 @@ void Menu::Clicked(uint8_t buttonNo)
             menuItem_t *menuItem = GetSelectedMenu();
             (*callBack)(menuItem->Id);
         }
-    }
-   
 }
 
 // Gets the current menu at Position 0
@@ -91,11 +87,12 @@ menuItem_t* Menu::GetSelectedMenu()
     return nullptr;
 }
 
-void Menu::SetValueFour(int16_t value)
+void Menu::MoveMenu(int8_t value)
 {
-    uint8_t PixSpacing = (NUMPIXELS/ CurrentMenu->MenuItemCount) ;
     if (value == 0)
         return;
+    uint8_t PixSpacing = (NUMPIXELS/ CurrentMenu->MenuItemCount) ;
+    
   //  Serial.print(" | value ");Serial.println(value);
     for (uint8_t r=0;r< PixSpacing;r++)
     {
@@ -130,3 +127,14 @@ void Menu::SetValueFour(int16_t value)
 
     DisplayMenu();
 };
+
+void Menu::Clicked(uint8_t buttonNo)
+{
+    switch (buttonNo)
+    {
+        case BTN_ENTER: SelectMenu();break;
+        case BTN_UP: MoveMenu(1);break;
+        case BTN_DOWN: MoveMenu(-1);break;
+    }
+}
+

@@ -34,6 +34,7 @@ public:
     void Begin();
    void AttachCallBack(void (*cback)(int));
    void Clicked(uint8_t buttonNo);
+   void LongPress(uint8_t buttonNo);
     
 
 } ;

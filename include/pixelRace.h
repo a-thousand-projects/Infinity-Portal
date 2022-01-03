@@ -39,11 +39,11 @@ public:
     void SetValueOne(int16_t value);
     void SetValueTwo(int16_t value);
     void SetValueThree(int16_t value);
-    void SetValueFour(int16_t value);
+    void ChangeGlobalSpeed(int16_t value);
     void Begin();
     void AttachCallBack(void (*cback)(int));
     void Clicked(uint8_t buttonNo);
-    
+    void LongPress(uint8_t buttonNo);
 
 } ;
 
