@@ -15,12 +15,6 @@ void Menu::Begin()
     DisplayMenu();
 }
 
-void Menu::AttachCallBack(void (*cback)(int))
-{
-    callBack = cback;
-}
-
-
 
 void Menu::DisplayMenu()
 {
@@ -58,17 +52,16 @@ void Menu::SetMenu(menuCollection_t *menu)
 
 void Menu::RunStep(){};
 
-
 void Menu::SelectMenu()
 {
         menuItem_t *menu = GetSelectedMenu();
         pixelRing->blinkRing(menu->Colour,1,200);
         delay(50);
         DisplayMenu();
-        if (callBack != NULL)
+        if (fncBtnEnter != NULL)
         {
             menuItem_t *menuItem = GetSelectedMenu();
-            (*callBack)(menuItem->Id);
+            (*fncBtnEnter)(menuItem->Id);
         }
 }
 
@@ -132,7 +125,7 @@ void Menu::Clicked(uint8_t buttonNo)
 {
     switch (buttonNo)
     {
-        case BTN_ENTER: SelectMenu();break;
+       
         case BTN_UP: MoveMenu(1);break;
         case BTN_DOWN: MoveMenu(-1);break;
     }

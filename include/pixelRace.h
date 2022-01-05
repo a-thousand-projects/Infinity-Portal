@@ -9,6 +9,7 @@
 #define PIXEL_RACE_NOOF_PIXELS 3
 #define STEP_VALUE_MAX 10
 #define STEP_VALUE_MIN 1
+#define MAX_TAIL 10
 
 
 class PixelProperties  
@@ -27,9 +28,10 @@ private:
     PixelProperties pixelProperties[PIXEL_RACE_NOOF_PIXELS];
     uint32_t forgroundColour;
     uint32_t backgroundColour;
+    uint8_t tail = 1;
+
+    
 public:
-   
-    //PixelRace(PixelRing *pr,uint8_t minPosition, uint8_t maxPosition);
     PixelRace(PixelRing *pr,uint8_t min,uint8_t max);
     ~PixelRace();
     void SetPixelCount(uint8_t count);
@@ -41,9 +43,9 @@ public:
     void SetValueThree(int16_t value);
     void ChangeGlobalSpeed(int16_t value);
     void Begin();
-    void AttachCallBack(void (*cback)(int));
+
     void Clicked(uint8_t buttonNo);
-    void LongPress(uint8_t buttonNo);
+
 
 } ;
 

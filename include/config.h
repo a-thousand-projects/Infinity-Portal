@@ -11,10 +11,10 @@
 #define BTN_1           9
 #define BTN_2           8
 #define BTN_3           7
-#define BTN_UP          6
-#define BTN_DOWN        5
+#define BTN_UP          5
+#define BTN_DOWN        6
 
-#define BTN_ENTER       BTN_1
+#define BTN_ENTER       BTN_DOWN
 #define BTN_EXIT        BTN_UP
 
 #define NEO_PIN       10

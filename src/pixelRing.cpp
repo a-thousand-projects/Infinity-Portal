@@ -37,6 +37,8 @@ void PixelRing::show()
     neoPixels->show();
 }
 
+
+
 void PixelRing::rotate(int8_t numPos)
 {
     if (numPos == 0 )
@@ -83,7 +85,16 @@ void PixelRing::clear()
 
 void PixelRing::setPixel(uint8_t i, uint32_t colour)
 {
-    pixelArray[i] = colour;
+        pixelArray[i]=colour; 
+}
+
+uint8_t PixelRing::Adjust(int8_t p)
+{
+    if (p<0)
+        return NUMPIXELS + p;
+    if (p>=NUMPIXELS)
+        return 0;
+    return p;
 }
 
 uint32_t PixelRing::getPixel(uint8_t i)
@@ -106,6 +117,18 @@ void PixelRing::blinkRing(uint32_t colour,uint8_t blinks, uint16_t delayTime)
 }
 
 
-
+uint32_t PixelRing::Wheel(byte WheelPos) {
+  if(WheelPos < 85) {
+    return neoPixels->Color(WheelPos * 3, 255 - WheelPos * 3, 0);
+  } 
+  else if(WheelPos < 170) {
+    WheelPos -= 85;
+    return neoPixels->Color(255 - WheelPos * 3, 0, WheelPos * 3);
+  } 
+  else {
+    WheelPos -= 170;
+    return neoPixels->Color(0, WheelPos * 3, 255 - WheelPos * 3);
+  }
+}
 
 

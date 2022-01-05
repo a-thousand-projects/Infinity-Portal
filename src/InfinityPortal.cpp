@@ -73,37 +73,31 @@ PixelProgram * currentPixelProgram;
 void changeMode();
 
 
-
-void buttonCallBack(int menuId)
+void menuBack()
 {
-  if (menuId == -1)
-  {
-     currentPixelProgram = &menu;
-     currentPixelProgram->Begin();
-     return;
-  }
 
-  if (currentPixelProgram != &menu)
+}
+
+void MenuEnter(int menuId) {
+  menuItem_t* selectedMenu = menu.GetSelectedMenu();
+  if (!selectedMenu->program)
   {
-    Log.infoln("Back to menu");
+    Log.infoln("No Program attached to menu");
+    return;
+  }
+  Log.info("Menu Selected = %s" CR,selectedMenu->Itemname.c_str());
+  selectedMenu->program->Begin();
+  currentPixelProgram = selectedMenu->program;
+}
+
+void ProgramExit(int num)
+{
+  Log.infoln("Back to menu");
     menu.Begin();
     currentPixelProgram = &menu;
-  }
-  else{
-    menuItem_t* selectedMenu = menu.GetSelectedMenu();
-    if (!selectedMenu->program)
-    {
-      Log.infoln("No Program attached to menu");
-      return;
-    }
-    Log.info("Menu Selected = %s" CR,selectedMenu->Itemname.c_str());
-    selectedMenu->program->Begin();
-    currentPixelProgram = selectedMenu->program;
-
-  }
-  
-  
 }
+
+
 
 void ButtonEventHandler(AceButton*  button , uint8_t eventType,uint8_t  buttonState )
 {
@@ -113,11 +107,19 @@ void ButtonEventHandler(AceButton*  button , uint8_t eventType,uint8_t  buttonSt
     
     case AceButton::kEventClicked:
       Log.info("Button %d Clicked" CR,btn);
-        currentPixelProgram->Clicked(btn);
+      currentPixelProgram->Clicked(btn);
       break;
     case AceButton::kEventLongPressed:
       Log.info("Button %d LONG Pressed" CR,btn);
       currentPixelProgram->LongPress(btn);
+      break;
+    case AceButton::kEventPressed:
+      Log.info("Button %d Pressed Event" CR,btn);
+      currentPixelProgram->ButtonStateChanged(btn,BUTTON_PRESSED);
+      break;
+    case AceButton::kEventReleased:
+      Log.info("Button %d Released Event" CR,btn);
+      currentPixelProgram->ButtonStateChanged(btn,BUTTON_RELEASED);
       break;
   }
 }
@@ -153,9 +155,10 @@ void setup() {
 
 
   // Set up Menu Callback
-  menu.AttachCallBack(buttonCallBack);
-  pixelRace.AttachCallBack(buttonCallBack);
-  randomChaos.AttachCallBack(buttonCallBack);
+
+  menu.AttachCallBackEnter(MenuEnter);
+  pixelRace.AttachCallBackExit(ProgramExit);
+  randomChaos.AttachCallBackExit(ProgramExit);
   lastDebounceTime = 0;
   btnState = BTN_STATE_HIGH;
 

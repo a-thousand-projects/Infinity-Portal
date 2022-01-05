@@ -29,6 +29,7 @@ class PixelRing
     protected: 
         
         uint32_t pixelArray[NUMPIXELS];
+        uint8_t adjustPos(int8_t pos);
     public:
         
         PixelRing();
@@ -42,6 +43,8 @@ class PixelRing
         void show();
         void clear();
         uint16_t GetNumPixels();
+        uint32_t PixelRing::Wheel(byte WheelPos);
+        uint8_t Adjust(int8_t p);
 
 
 

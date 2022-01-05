@@ -54,29 +54,4 @@ void RandomChaos::RunStep()
      }
  }
 
-void RandomChaos::AttachCallBack(void (*cback)(int))
-{
-    callBack = cback;
-}
 
-void RandomChaos::LongPress(uint8_t buttonNo)
-{
-    if (buttonNo == 4)
-    {
-        if (callBack != NULL)
-        {
-            (*callBack)(-1);
-        }
-    }
-}
-
-void RandomChaos::Clicked(uint8_t buttonNo)
-{
-    if (buttonNo == BTN_EXIT)
-    {
-        if (callBack != NULL)
-        {
-            (*callBack)(-1);
-        }
-    }
-}
