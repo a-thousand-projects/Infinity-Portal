@@ -4,7 +4,7 @@
 
 menuCollection_t MainMenu = {
     "Main menu",
-    6,
+    3,
     {
        { 1,
        "Pixel Race",
@@ -19,25 +19,11 @@ menuCollection_t MainMenu = {
        GREEN,
        1},
        {3,
-        "Item 3",
+        "Pixel Sound",
        ORANGE,
        GREEN,
        2},
-       { 4,
-       "Item 4",
-       VIOLET,
-       YELLOW,
-       3},
-        { 5,
-        "Item 5",
-       CYAN,
-       GREEN,
-       4},
-       { 6,
-       "Item 6",
-       WHITE,
-       GREEN,
-       5}
+       
     },
   
 

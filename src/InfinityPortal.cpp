@@ -6,6 +6,7 @@
 #include "PixelRing.h"
 #include "pixelRace.h"
 #include "RandomChaos.h"
+#include "PixelSoundOne.h"
 #include "menu.h"
 #include "mainMenu.h"
 #include <ArduinoLog.h>
@@ -63,6 +64,7 @@ PixelRing pixelRing;
 // Set up Pixel Programs
 PixelRace pixelRace(&pixelRing,0,NUMPIXELS);
 RandomChaos randomChaos (&pixelRing);
+PixelSoundOne pixelSoundOne(&pixelRing,AUDIO_PIN);
 
 Menu menu (&pixelRing);
 
@@ -129,12 +131,16 @@ void setup() {
  // Set up Serial Port
  Serial.begin(115200);
  // Set up logging
- Log.begin(LOG_LEVEL_VERBOSE,&Serial);
+ //Log.begin(LOG_LEVEL_VERBOSE,&Serial);
+ Log.begin(LOG_LEVEL_SILENT,&Serial);
  Log.setShowLevel(true);
  Log.notice("Infinity Portal Starting up" CR);
 
  pinMode(LED_BUILTIN,OUTPUT);
  digitalWrite(LED_BUILTIN,0);
+
+  // Set Up the Audio pinMode
+  pinMode (AUDIO_PIN,INPUT);
 
 
   // Set up buttons
@@ -159,6 +165,7 @@ void setup() {
   menu.AttachCallBackEnter(MenuEnter);
   pixelRace.AttachCallBackExit(ProgramExit);
   randomChaos.AttachCallBackExit(ProgramExit);
+  pixelSoundOne.AttachCallBackExit(ProgramExit);
   lastDebounceTime = 0;
   btnState = BTN_STATE_HIGH;
 
@@ -171,6 +178,7 @@ void setup() {
 
   MainMenu.MenuItems[0].program = (PixelProgram*)&pixelRace;
   MainMenu.MenuItems[1].program = (PixelProgram*)&randomChaos;
+  MainMenu.MenuItems[2].program = (PixelProgram*)&pixelSoundOne;
   menu.SetMenu(&MainMenu);
   menu.Begin();
 
