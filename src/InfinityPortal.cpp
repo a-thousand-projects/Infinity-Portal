@@ -7,6 +7,8 @@
 #include "pixelRace.h"
 #include "RandomChaos.h"
 #include "PixelSoundOne.h"
+#include "pixelPortal.h"
+#include "pixelColourWarp.h"
 #include "menu.h"
 #include "mainMenu.h"
 #include <ArduinoLog.h>
@@ -61,24 +63,23 @@ uint8_t btnState;
 uint8_t newSpeed;
 
 PixelRing pixelRing;
+
 // Set up Pixel Programs
 PixelRace pixelRace(&pixelRing,0,NUMPIXELS);
 RandomChaos randomChaos (&pixelRing);
 PixelSoundOne pixelSoundOne(&pixelRing,AUDIO_PIN);
-
+PixelPortal pixelPortal (&pixelRing);
+PixelColourWarp pixelColourWarp(&pixelRing);
 Menu menu (&pixelRing);
 
 
 PixelProgram * currentPixelProgram;
 
 //------- LOCAL PROTOTYPES -------------
-void changeMode();
+//void changeMode();
 
 
-void menuBack()
-{
 
-}
 
 void MenuEnter(int menuId) {
   menuItem_t* selectedMenu = menu.GetSelectedMenu();
@@ -132,7 +133,7 @@ void setup() {
  Serial.begin(115200);
  // Set up logging
  //Log.begin(LOG_LEVEL_VERBOSE,&Serial);
- Log.begin(LOG_LEVEL_SILENT,&Serial);
+ Log.begin(LOG_LEVEL_VERBOSE,&Serial);
  Log.setShowLevel(true);
  Log.notice("Infinity Portal Starting up" CR);
 
@@ -166,6 +167,8 @@ void setup() {
   pixelRace.AttachCallBackExit(ProgramExit);
   randomChaos.AttachCallBackExit(ProgramExit);
   pixelSoundOne.AttachCallBackExit(ProgramExit);
+  pixelPortal.AttachCallBackExit(ProgramExit);
+  pixelColourWarp.AttachCallBackExit(ProgramExit);
   lastDebounceTime = 0;
   btnState = BTN_STATE_HIGH;
 
@@ -176,9 +179,11 @@ void setup() {
 
   pixelRing.begin();
 
-  MainMenu.MenuItems[0].program = (PixelProgram*)&pixelRace;
-  MainMenu.MenuItems[1].program = (PixelProgram*)&randomChaos;
-  MainMenu.MenuItems[2].program = (PixelProgram*)&pixelSoundOne;
+  MainMenu.MenuItems[0].program = (PixelProgram*)&pixelPortal;
+  MainMenu.MenuItems[1].program = (PixelProgram*)&pixelRace;
+  MainMenu.MenuItems[2].program = (PixelProgram*)&randomChaos;
+  MainMenu.MenuItems[3].program = (PixelProgram*)&pixelSoundOne;
+   MainMenu.MenuItems[4].program = (PixelProgram*)&pixelColourWarp;
   menu.SetMenu(&MainMenu);
   menu.Begin();
 

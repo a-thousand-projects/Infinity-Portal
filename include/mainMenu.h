@@ -4,25 +4,39 @@
 
 menuCollection_t MainMenu = {
     "Main menu",
-    3,
+    5,
     {
-       { 1,
+        {1,
+        "Pixel Portal",
+       VIOLET,
+       GREEN,
+       0},
+
+       { 2,
        "Pixel Race",
         RED,
         GREEN,
-        0,
+        1,
 
        },
-       { 2,
+       { 3,
        "Random Chaos",
        BLUE,
        GREEN,
-       1},
-       {3,
+       2},
+
+       {4,
         "Pixel Sound",
        ORANGE,
        GREEN,
-       2},
+       3},
+       {5,
+        "Pixel Color Warp",
+       CYAN,
+       GREEN,
+    4},
+
+        
        
     },
   

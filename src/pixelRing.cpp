@@ -115,8 +115,9 @@ void PixelRing::blinkRing(uint32_t colour,uint8_t blinks, uint16_t delayTime)
         delay(delayTime/2);
     }
 }
-
-
+/* Utility from Adafruit Neopixel demo sketch
+   Input a value 0 to 255 to get a color value.
+   The colours are a transition R - G - B - back to R.*/
 uint32_t PixelRing::Wheel(byte WheelPos) {
   if(WheelPos < 85) {
     return neoPixels->Color(WheelPos * 3, 255 - WheelPos * 3, 0);
