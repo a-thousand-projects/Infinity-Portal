@@ -3,6 +3,7 @@
 #include "pixelProgram.h"
 #include <ArduinoLog.h>
 #include "pixelRing.h"
+#include <math.h>
 
 PixelColourWarp::PixelColourWarp(PixelRing *pr):PixelProgram(pr)
 {
@@ -11,8 +12,7 @@ PixelColourWarp::PixelColourWarp(PixelRing *pr):PixelProgram(pr)
 
 
 void PixelColourWarp::RunStep()
-{
-unsigned long tm;
+{ 
 led = 0;
 
 
@@ -21,9 +21,9 @@ led = 0;
     angle = step * led;
     rad = (((angle)))*((M_PI /180));
 
-    green = cos((rad*1) +(pulse*1))+0.5;
-    blue = cos((rad*1 + (M_PI/2)) +(pulse*2)) + 0.5;
-    red = (cos((rad*1)  + (M_PI)-pulse*3)) + 0.5;
+    green = cos((rad*1) +(pulse*1))+0.0;
+    blue = cos((rad*1 + (M_PI/2)) +(pulse*2)) + 0.0;
+    red = (sin((rad*1)  + (M_PI)+pulse*3)) + 0.9;
 
 if (red <0) red = 0;
     if (green < 0 ) green = 0;
@@ -38,7 +38,7 @@ if (red <0) red = 0;
 
     } while (led < ledCount);
     pixelRing->neoPixels->show();
-   // delay(10);
+    delay(50);
 
     pulse += (M_PI/ledCount);
 }
@@ -69,7 +69,7 @@ void PixelColourWarp::Begin()
     pixelRing->show();
     pixelRing->neoPixels->setBrightness(255);
     ledCount = NUMPIXELS;
-    step = 180/ledCount;
+    step = 360/ledCount;
 
 
 

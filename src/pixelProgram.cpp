@@ -55,6 +55,7 @@ uint8_t PixelProgram::GetButtonState(uint8_t buttonNo)
         case BTN_1: return ButtonOneState; break;
         case BTN_2: return ButtonTwoState; break;
         case BTN_3: return ButtonThreeState; break;
+        default : return BUTTON_NOTHING;
     }
 }
 

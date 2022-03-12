@@ -1,13 +1,13 @@
 #include "PixelSoundOne.h"
 #include "pixelRing.h"
-#include <avr/io.h>
+
 #include "arduinoFFT.h"
 #include "helpers.h"
 
 PixelSoundOne:: PixelSoundOne(PixelRing *pr, int audioPin):PixelProgram(pr)
 {
     audioPin = audioPin;
-    analogReference(INTERNAL); 
+  //  analogReference(INTERNAL); 
     
 
 

@@ -40,7 +40,7 @@ class Menu: public  PixelProgram
         void MoveMenu(int8_t value);
         void SelectMenu();
         void Clicked(uint8_t buttonNo);
-        menuItem_t* Menu::GetSelectedMenu();
+        menuItem_t* GetSelectedMenu();
         void AttachCallBack(void (*cback)(int));
 
         void SetMenuRotaryValue(uint16_t value){menuRotaryValue = value;};

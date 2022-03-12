@@ -8,9 +8,9 @@
 #include "arduinoFFT.h"
 
 #define SAMPLES     64
-#define DC_OFFSET   170
+#define DC_OFFSET   250
 #define DISPLAY_BINS 4
-#define DEFAULT_DISPLAY_BIN_SIZE 10
+#define DEFAULT_DISPLAY_BIN_SIZE 15
 
 
 class PixelSoundOne: public PixelProgram
