@@ -31,7 +31,7 @@ class PixelProgram
         uint8_t GetButtonState(uint8_t buttonNo) ;
         
        PixelProgram(PixelRing* pr);
-       PixelProgram::~PixelProgram();
+       ~PixelProgram();
 
         virtual void Begin();
         virtual void RunStep();
