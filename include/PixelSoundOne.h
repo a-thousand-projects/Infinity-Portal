@@ -8,7 +8,8 @@
 #include "arduinoFFT.h"
 
 #define SAMPLES     64
-#define DC_OFFSET   250
+#define SAMPLING_FREQ 8000
+#define DC_OFFSET   340
 #define DISPLAY_BINS 4
 #define DEFAULT_DISPLAY_BIN_SIZE 15
 
@@ -17,7 +18,7 @@ class PixelSoundOne: public PixelProgram
 {
     private:
         uint8_t audioPin;
-        arduinoFFT FFT = arduinoFFT();
+        arduinoFFT FFT; 
         double vReal[SAMPLES];
         double vImag[SAMPLES];
         uint32_t max = 0;
@@ -25,13 +26,13 @@ class PixelSoundOne: public PixelProgram
         uint16_t  displayBinsSize[DISPLAY_BINS] = {DEFAULT_DISPLAY_BIN_SIZE,DEFAULT_DISPLAY_BIN_SIZE,DEFAULT_DISPLAY_BIN_SIZE,DEFAULT_DISPLAY_BIN_SIZE};
         uint16_t barPosition[DISPLAY_BINS];
         int8_t barPositionDir[DISPLAY_BINS];
-        int8_t displayBinDivider[DISPLAY_BINS]={100,50,50,50};
+        int16_t displayBinDivider[DISPLAY_BINS]={3000,1000,1000,1000};
         uint16_t barValue[DISPLAY_BINS];
-        int16_t  EQBins[DISPLAY_BINS] = {-155,-12,-12,-12};
+        int16_t  EQBins[DISPLAY_BINS] = {-300,-200,0,0};
         uint16_t data_avgs[DISPLAY_BINS];
         char sValue[10];
     public:
-        PixelSoundOne(PixelRing *pr, int audioPin);
+        PixelSoundOne(PixelRing *pr, int pin);
         void Begin();
         void RunStep();
 };
