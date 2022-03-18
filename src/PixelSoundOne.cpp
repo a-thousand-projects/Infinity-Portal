@@ -4,12 +4,17 @@
 #include "arduinoFFT.h"
 #include "helpers.h"
 
-PixelSoundOne:: PixelSoundOne(PixelRing *pr, int audioPin):PixelProgram(pr)
+uint32_t ave = 0;
+uint16_t smoother = 0;
+PixelSoundOne:: PixelSoundOne(PixelRing *pr, int pin):PixelProgram(pr)
 {
-    audioPin = audioPin;
+    audioPin = pin;
   //  analogReference(INTERNAL); 
-    
+    analogSetWidth(10);
+    analogSetClockDiv(1);
 
+    FFT = arduinoFFT(vReal,vImag,SAMPLES,SAMPLING_FREQ);
+    
 
 }
 
@@ -33,27 +38,69 @@ void PixelSoundOne::Begin()
 
     pixelRing->clear();
     pixelRing->show();
+
 }
 
 void PixelSoundOne::RunStep()
 {
     // Collect Samples
+    ave = 0;
+    smoother +=1;
+    if (smoother <500)
+        return;
+    smoother =0;
     for (uint8_t sample =0;sample < SAMPLES;sample++) 
     {
-        int32_t audioRaw = analogRead(audioPin)-DC_OFFSET;
-
+        //int32_t audioRaw = (analogRead(audioPin)-DC_OFFSET);
+        int32_t audioRaw = analogRead(36)-DC_OFFSET;
         // Compress Value
-        vReal[sample] = audioRaw/8 ;
+        ave += audioRaw;
+        vReal[sample] = audioRaw ;
         vImag[sample] = 0;
+   //     sprintf(sV,"%04.2f ", vReal[sample]);
+   //     Serial.println(sV);
     }
+//    Serial.println();
+ //   return;
+  //  Serial.println();
+   // Serial.println(ave/SAMPLES);
 
     // Run FFT
-    FFT.Windowing(vReal,SAMPLES,FFT_WIN_TYP_HAMMING,FFT_FORWARD);
-    FFT.Compute(vReal,vImag,SAMPLES,FFT_FORWARD);
-    FFT.ComplexToMagnitude(vReal,vImag,SAMPLES);
-    
+    FFT.DCRemoval();
+    FFT.Windowing(FFT_WIN_TYP_HAMMING,FFT_FORWARD);
+    FFT.Compute(FFT_FORWARD);
+    FFT.ComplexToMagnitude();
+    ave = 0;
+    for (uint8_t i = 0 ;i<SAMPLES/4; i++)
+    {
+        ave += vReal[i];
+        //sprintf(sV,"%04.2f , ", vReal[i]);
+        //Serial.print(sV);
+    }
+
+   /* Serial.println(ave/(SAMPLES/4));
+    if (ave/(SAMPLES/4) < 300)
+    {
+        silenceCount++;
+        
+        if (silenceCount > 100)
+        {
+            silenceCount = 0;
+            pixelRing->neoPixels->fill(0);
+            pixelRing->neoPixels->setPixelColor(0,0x000FF0);
+            pixelRing->neoPixels->setPixelColor(NUMPIXELS-1,0x000FF0);
+            pixelRing->neoPixels->show();
+            
+        }
+        return;
+    }
+     */   
+    //Serial.println();
+    //return;;
+
+
     // Fill the displayBins with the Data
-    uint8_t binDivisor = SAMPLES / DISPLAY_BINS;
+    uint8_t binDivisor = (SAMPLES/2) / DISPLAY_BINS;
     uint32_t calAve;
     for (uint8_t i=0; i< DISPLAY_BINS;i++)
     {
@@ -63,17 +110,16 @@ void PixelSoundOne::RunStep()
             calAve +=(uint32_t) vReal[((d)*i)+1];
             
         }
-        displayBins[i] = (uint32_t)(calAve/(binDivisor+1));
-  //      printDouble(displayBins[i],100);
-  //      Serial.print(": ");
+        displayBins[i] = (uint32_t)(calAve/(binDivisor));
+      //  printDouble(displayBins[i],100);
+      //  Serial.print(": ");
     }
- //   Serial.println();
+   // Serial.println();
  
 
 
     //calc Percentage of Value against Bin Size
-    uint8_t binStart = 0;
-    uint8_t binDir = 1;
+
     int32_t reduced;
     double barValCalc;
     double binValue;
@@ -89,16 +135,16 @@ void PixelSoundOne::RunStep()
 
         binValue = displayBins[bin];
         divider = displayBinDivider[bin];
-        barValCalc= (binValue/divider)*10;
-
+        barValCalc= ((binValue/divider)) * 15;
+        
         barValue[bin] = (int16_t)barValCalc;
 
    }
 
-    
-    uint8_t binSplitLow = 4;
-    uint8_t binSplitMid = 7;
-    uint8_t binSplitHi = 10;
+
+    uint8_t binSplitLow = 6;
+    uint8_t binSplitMid = 10;
+    uint8_t binSplitHi = 15;
     int16_t barPositionCalc;
     int8_t barDir;
     

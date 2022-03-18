@@ -130,14 +130,24 @@ void ButtonEventHandler(AceButton*  button , uint8_t eventType,uint8_t  buttonSt
 
 // ------- SET UP ---------------
 void setup() {
+// Set CPU Speed 
+uint32_t xtal = getXtalFrequencyMhz();
+uint32_t cpu = getCpuFrequencyMhz();
+uint32_t apb = getApbFrequency();
+
+
  // Set up Serial Port
  Serial.begin(115200);
  // Set up logging
  //Log.begin(LOG_LEVEL_VERBOSE,&Serial);
- Log.begin(LOG_LEVEL_VERBOSE,&Serial);
+ Log.begin(LOG_LEVEL_ERROR,&Serial);
  Log.setShowLevel(true);
- Log.notice("Infinity Portal Starting up" CR);
-
+ Log.notice("\n*******************************\n");
+ Log.notice("* Infinity Portal Starting up \n" );
+ Log.notice("* Xtal Htz : %d Mhz           \n", xtal); 
+ Log.notice("* CPU Htz : %d Mhz            \n",cpu); 
+ Log.notice("* APB Htz : %d Hz             \n",apb); 
+ Log.notice("*******************************\n" CR);
  pinMode(LED_BUILTIN,OUTPUT);
  digitalWrite(LED_BUILTIN,0);
 
@@ -208,6 +218,6 @@ void ButtonCheck(){
 void loop(){
 
   ButtonCheck();
- //   audio = analogRead(AUDIO_PIN);
+
   currentPixelProgram->RunStep();
 }
