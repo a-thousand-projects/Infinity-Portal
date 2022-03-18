@@ -8,7 +8,7 @@
 #include "arduinoFFT.h"
 
 #define SAMPLES     64
-#define SAMPLING_FREQ 8000
+#define SAMPLING_FREQ 80000
 #define DC_OFFSET   340
 #define DISPLAY_BINS 4
 #define DEFAULT_DISPLAY_BIN_SIZE 15

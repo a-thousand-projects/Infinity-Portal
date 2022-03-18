@@ -5,7 +5,7 @@
 #include "helpers.h"
 
 uint32_t ave = 0;
-uint16_t silenceCount = 0;
+uint16_t smoother = 0;
 PixelSoundOne:: PixelSoundOne(PixelRing *pr, int pin):PixelProgram(pr)
 {
     audioPin = pin;
@@ -45,10 +45,10 @@ void PixelSoundOne::RunStep()
 {
     // Collect Samples
     ave = 0;
-    silenceCount +=1;
-    if (silenceCount <500)
+    smoother +=1;
+    if (smoother <500)
         return;
-    silenceCount =0;
+    smoother =0;
     for (uint8_t sample =0;sample < SAMPLES;sample++) 
     {
         //int32_t audioRaw = (analogRead(audioPin)-DC_OFFSET);
