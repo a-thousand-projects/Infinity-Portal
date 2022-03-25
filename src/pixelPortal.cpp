@@ -3,6 +3,7 @@
 #include "pixelProgram.h"
 #include <ArduinoLog.h>
 #include "pixelRing.h"
+#include "math.h"
 
 
 PixelPortal::PixelPortal(PixelRing *pr):PixelProgram(pr)
@@ -19,33 +20,36 @@ void PixelPortal::NextColor()
 
 void PixelPortal::RunStep()
 {
+     double rad;
+     double b;
     uint32_t now = millis();
-    if (now-lastRunTime < pulseDelay)
+    if (now-lastRunTime < 1)
         return;
 
-    if (pulseMode == PULSE_ON_MODE)
-    {
-        brightness += 1;
-        if (brightness == PULSE_MAX_BRIGHTNESS)
-        {
-            pulseMode = PULSE_OFF_MODE;
-         //   NextColor();
-        }
-    }
-    else
-    {
-        brightness -=1;
-        if (brightness == PULSE_MIN_BRIGHTNESS)
-        {
-            pulseMode = PULSE_ON_MODE;
-            NextColor();
-        }
-       
-    }
+    brightness =0;
     
-    pixelRing->neoPixels->setBrightness(brightness);
- 
+    do {
+    rad = (((brightness)))*((M_PI /180));
+    b = sin(rad+(M_PI/4))+1;
+
+    pixelRing->neoPixels->setBrightness(250* (b/2));
+
+    
+    brightness++;
+    
+    if (b==0)
+    {
+        NextColor();
+    }
     pixelRing->show();
+
+  //  delay(10);
+
+    } while (brightness<360);
+    
+    
+
+
     lastRunTime = millis();
 }
 
@@ -74,6 +78,7 @@ void PixelPortal::Begin()
     pixelRing->setRingColour(INDIGO);
     pixelRing->neoPixels->setBrightness(0);
     SetPulseValues(DEFAULT_PULSE_ON,DEFAULT_PULSE_OFF);
+    brightness = 0;
     lastRunTime = millis();
 
 }

@@ -139,8 +139,8 @@ uint32_t apb = getApbFrequency();
  // Set up Serial Port
  Serial.begin(115200);
  // Set up logging
- //Log.begin(LOG_LEVEL_VERBOSE,&Serial);
- Log.begin(LOG_LEVEL_ERROR,&Serial);
+ Log.begin(LOG_LEVEL_VERBOSE,&Serial);
+ //Log.begin(LOG_LEVEL_ERROR,&Serial);
  Log.setShowLevel(true);
  Log.notice("\n*******************************\n");
  Log.notice("* Infinity Portal Starting up \n" );
