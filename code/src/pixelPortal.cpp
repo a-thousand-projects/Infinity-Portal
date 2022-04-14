@@ -26,9 +26,6 @@ void PixelPortal::RunStep()
     if (now-lastRunTime < 1)
         return;
 
-    brightness =0;
-    
-    do {
     rad = (((brightness)))*((M_PI /180));
     b = sin(rad+(M_PI/4))+1;
 
@@ -43,9 +40,10 @@ void PixelPortal::RunStep()
     }
     pixelRing->show();
 
-  //  delay(10);
+    delay(10);
 
-    } while (brightness<360);
+   if (brightness == 360)
+    brightness = 0;
     
     
 
