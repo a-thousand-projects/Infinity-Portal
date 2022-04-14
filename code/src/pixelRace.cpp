@@ -99,7 +99,7 @@ void PixelRace:: SetBackgroundColour(uint32_t colour)
 
 void PixelRace::ChangeGlobalSpeed(int16_t value)
 {
-    ChangeValue(&raceSpeed,"StepSpeed: ",value,1,15,false);
+    ChangeValue(&raceSpeed,"StepSpeed: ",-value,1,15,false);
     Log.info("Race Speed : %d" CR,raceSpeed);
 }
 

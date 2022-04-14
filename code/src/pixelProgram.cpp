@@ -63,8 +63,8 @@ uint8_t PixelProgram::GetButtonState(uint8_t buttonNo)
  void PixelProgram::LongPress(uint8_t buttonNo){
 
      if (buttonNo == BTN_ENTER && fncBtnEnter!=NULL)
-        fncBtnEnter(NULL);
+        fncBtnEnter(0);
      if (buttonNo == BTN_EXIT && fncBtnExit!=NULL)
-        fncBtnExit(NULL);
+        fncBtnExit(0);
  };
 
