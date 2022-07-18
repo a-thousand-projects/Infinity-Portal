@@ -4,6 +4,9 @@
 #include <ArduinoLog.h>
 #include "pixelRing.h"
 #include <math.h>
+#include "hslColour.h"
+
+
 
 PixelColourWarp::PixelColourWarp(PixelRing *pr):PixelProgram(pr)
 {
@@ -12,7 +15,12 @@ PixelColourWarp::PixelColourWarp(PixelRing *pr):PixelProgram(pr)
 
 
 void PixelColourWarp::RunStep()
-{ 
+{
+   pixelRing->rotate(1);
+   pixelRing->show();
+   delay(50);
+}
+  /*
 led = 0;
 
 
@@ -42,7 +50,7 @@ if (red <0) red = 0;
 
     pulse += (M_PI/ledCount);
 }
-
+*/
 
 void PixelColourWarp::SetValueOne(int16_t value)
 {}
@@ -65,14 +73,17 @@ void PixelColourWarp::Begin()
 {
     Log.info("Pixel Colour Warp" CR);
     pixelRing->clear();
-    pixelRing->setRingColour(INDIGO);
-    pixelRing->show();
     pixelRing->neoPixels->setBrightness(255);
+    
     ledCount = NUMPIXELS;
     step = 360/ledCount;
-
-
-
+    angle=0;
+    for (uint8_t a=0;a<NUMPIXELS;a++)
+    {
+      uint32_t rgb_color = hsl_to_rgb2(a*step, 100, 80);
+      pixelRing->setPixel(a, rgb_color );
+    }
+    pixelRing->show();
 }
 
 void PixelColourWarp::Clicked(uint8_t buttonNo)

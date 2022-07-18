@@ -4,7 +4,7 @@
 #include <ArduinoLog.h>
 #include "pixelRing.h"
 #include "math.h"
-
+#include "hslColour.h"
 
 PixelPortal::PixelPortal(PixelRing *pr):PixelProgram(pr)
 {

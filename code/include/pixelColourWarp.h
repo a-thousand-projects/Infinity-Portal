@@ -24,7 +24,7 @@ class PixelColourWarp: public PixelProgram
         uint8_t ledCount;
         uint8_t step ;
         uint8_t offset = 0;
-        double angle;
+        float angle;
         double rad;
 
     public:
