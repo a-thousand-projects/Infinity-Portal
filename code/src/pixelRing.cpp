@@ -3,6 +3,8 @@
 #include "config.h"
 #include <ArduinoLog.h>
 
+// FASTLEDPORT
+
 PixelRing::PixelRing()
 {
      neoPixels = new Adafruit_NeoPixel(NUMPIXELS, NEO_PIN, NEO_GRB + NEO_KHZ800 );
