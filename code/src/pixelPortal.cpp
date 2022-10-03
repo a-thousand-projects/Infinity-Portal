@@ -13,7 +13,7 @@ PixelPortal::PixelPortal(PixelRing *pr):PixelProgram(pr)
 
 void PixelPortal::NextColor()
 {
-    uint32_t color = pixelRing->Wheel(pulseColor);
+    uint32_t color = 0; //todo pixelRing->Wheel(pulseColor);
     pulseColor +=pulseColorStep;
     pixelRing->setRingColour(color);
 }
@@ -29,7 +29,7 @@ void PixelPortal::RunStep()
     rad = (((brightness)))*((M_PI /180));
     b = sin(rad+(M_PI/4))+1;
 
-    pixelRing->neoPixels->setBrightness(250* (b/2));
+    //todo pixelRing->neoPixels->setBrightness(250* (b/2));
 
     
     brightness++;
@@ -74,7 +74,7 @@ void PixelPortal::Begin()
     Log.info("Pixel Portal Begin" CR);
     pixelRing->clear();
     pixelRing->setRingColour(INDIGO);
-    pixelRing->neoPixels->setBrightness(0);
+    //todo pixelRing->neoPixels->setBrightness(0);
     SetPulseValues(DEFAULT_PULSE_ON,DEFAULT_PULSE_OFF);
     brightness = 0;
     lastRunTime = millis();

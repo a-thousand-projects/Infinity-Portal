@@ -21,7 +21,7 @@ void Menu::DisplayMenu()
     pixelRing->clear();
     // TODO : There is an alignment issue when menu has an Odd Number of Menu Items
     // Calculate Center Position spacing
-    uint8_t PixSpacing = (NUMPIXELS/ CurrentMenu->MenuItemCount) ;
+    uint8_t PixSpacing = (NUM_PIXELS/ CurrentMenu->MenuItemCount) ;
     // Put in centre pixel
     for (uint8_t i=0;i<CurrentMenu->MenuItemCount;i++)
     {
@@ -36,7 +36,7 @@ void Menu::DisplayMenu()
             pixelRing->setPixel((CurrentMenu->MenuItems[i].Position*PixSpacing)+1+s,CurrentMenu->MenuItems[i].Colour);
             int8_t d = (CurrentMenu->MenuItems[i].Position*PixSpacing)-1-s;
             if (d<0)
-                d =  NUMPIXELS-1-s;
+                d =  NUM_PIXELS-1-s;
             pixelRing->setPixel(d,CurrentMenu->MenuItems[i].Colour);
         }
         
@@ -84,7 +84,7 @@ void Menu::MoveMenu(int8_t value)
 {
     if (value == 0)
         return;
-    uint8_t PixSpacing = (NUMPIXELS/ CurrentMenu->MenuItemCount) ;
+    uint8_t PixSpacing = (NUM_PIXELS/ CurrentMenu->MenuItemCount) ;
     
   //  Serial.print(" | value ");Serial.println(value);
     for (uint8_t r=0;r< PixSpacing;r++)

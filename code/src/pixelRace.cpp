@@ -40,7 +40,7 @@ void PixelRace::Clicked(uint8_t buttonNo)
             // Select a new Random Color for each pixel
             for (uint8_t i = 0; i <PIXEL_RACE_NOOF_PIXELS;i++)
             {
-                pixelProperties[i].forgroundColour = pixelRing->Wheel(random(255));
+               //todo  pixelProperties[i].forgroundColour = pixelRing->Wheel(random(255));
                 
             }
         break;

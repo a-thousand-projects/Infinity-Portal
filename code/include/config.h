@@ -1,5 +1,5 @@
 
-
+#include "FastLED.h"
 
 
 #define AUDIO_PIN       36
@@ -15,5 +15,11 @@
 #define BTN_ENTER       BTN_DOWN
 #define BTN_EXIT        BTN_UP
 
-#define NEO_PIN         2
-#define NUMPIXELS 72
+#define NUM_PIXELS 72
+
+#define LED_TYPE   WS2811
+#define COLOR_ORDER   GRB
+#define DATA_PIN        2
+//#define CLK_PIN       4
+#define VOLTS          5
+#define MAX_MA       4000

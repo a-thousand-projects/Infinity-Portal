@@ -2,7 +2,7 @@
 
 /* ESP 8266 12F PORT */
 #include <Arduino.h>
-#include <Adafruit_NeoPixel.h>
+
 
 //#include "EveryTimerB.h"
 #include "config.h"
@@ -68,7 +68,7 @@ uint8_t newSpeed;
 PixelRing pixelRing;
 
 // Set up Pixel Programs
-PixelRace pixelRace(&pixelRing,0,NUMPIXELS);
+PixelRace pixelRace(&pixelRing,0,NUM_PIXELS);
 RandomChaos randomChaos (&pixelRing);
 PixelSoundOne pixelSoundOne(&pixelRing,AUDIO_PIN);
 PixelPortal pixelPortal (&pixelRing);
