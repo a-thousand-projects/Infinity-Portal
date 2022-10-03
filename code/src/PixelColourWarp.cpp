@@ -7,7 +7,11 @@
 #include "hslColour.h"
 
 
-
+/**
+ * @brief Construct a new Pixel Colour Warp:: Pixel Colour Warp object
+ * 
+ * @param pr 
+ */
 PixelColourWarp::PixelColourWarp(PixelRing *pr):PixelProgram(pr)
 {
 
