@@ -36,7 +36,7 @@ void RandomChaos::RunStep()
 
      if (stepCount > speed) 
      {
-        uint8_t r = random(NUMPIXELS);
+        uint8_t r = random(NUM_PIXELS);
 
         pixelRing->setPixel(lastPix,0);    
         lastPix = r;

@@ -77,12 +77,12 @@ void PixelColourWarp::Begin()
 {
     Log.info("Pixel Colour Warp" CR);
     pixelRing->clear();
-    pixelRing->neoPixels->setBrightness(255);
+    FastLED.setBrightness(255);
     
-    ledCount = NUMPIXELS;
+    ledCount = NUM_PIXELS;
     step = 360/ledCount;
     angle=0;
-    for (uint8_t a=0;a<NUMPIXELS;a++)
+    for (uint8_t a=0;a<NUM_PIXELS;a++)
     {
       uint32_t rgb_color = hsl_to_rgb2(a*step, 100, 80);
       pixelRing->setPixel(a, rgb_color );

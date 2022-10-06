@@ -2,13 +2,13 @@
 
 /* ESP 8266 12F PORT */
 #include <Arduino.h>
-#include <Adafruit_NeoPixel.h>
+
 
 //#include "EveryTimerB.h"
 #include "config.h"
 #include "PixelRing.h"
 #include "pixelRace.h"
-#include "RandomChaos.h"
+#include "pixelBounce.h"
 #include "PixelSoundOne.h"
 #include "pixelPortal.h"
 #include "pixelColourWarp.h"
@@ -68,8 +68,8 @@ uint8_t newSpeed;
 PixelRing pixelRing;
 
 // Set up Pixel Programs
-PixelRace pixelRace(&pixelRing,0,NUMPIXELS);
-RandomChaos randomChaos (&pixelRing);
+PixelRace pixelRace(&pixelRing,0,NUM_PIXELS);
+PixelBounce pixelBounce (&pixelRing);
 PixelSoundOne pixelSoundOne(&pixelRing,AUDIO_PIN);
 PixelPortal pixelPortal (&pixelRing);
 PixelColourWarp pixelColourWarp(&pixelRing);
@@ -178,7 +178,7 @@ uint32_t apb = getApbFrequency();
 
   menu.AttachCallBackEnter(MenuEnter);
   pixelRace.AttachCallBackExit(ProgramExit);
-  randomChaos.AttachCallBackExit(ProgramExit);
+  pixelBounce.AttachCallBackExit(ProgramExit);
   pixelSoundOne.AttachCallBackExit(ProgramExit);
   pixelPortal.AttachCallBackExit(ProgramExit);
   pixelColourWarp.AttachCallBackExit(ProgramExit);
@@ -194,7 +194,7 @@ uint32_t apb = getApbFrequency();
 
   MainMenu.MenuItems[0].program = (PixelProgram*)&pixelPortal;
   MainMenu.MenuItems[1].program = (PixelProgram*)&pixelRace;
-  MainMenu.MenuItems[2].program = (PixelProgram*)&randomChaos;
+  MainMenu.MenuItems[2].program = (PixelProgram*)&pixelBounce;
   MainMenu.MenuItems[3].program = (PixelProgram*)&pixelSoundOne;
    MainMenu.MenuItems[4].program = (PixelProgram*)&pixelColourWarp;
   menu.SetMenu(&MainMenu);

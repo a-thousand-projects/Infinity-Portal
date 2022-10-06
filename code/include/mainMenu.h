@@ -20,9 +20,9 @@ menuCollection_t MainMenu = {
 
        },
        { 3,
-       "Random Chaos",
+       "Bounce",
        BLUE,
-       GREEN,
+       RED,
        2},
 
        {4,

@@ -21,7 +21,7 @@ class PixelPortal: public PixelProgram
     private:
     uint16_t pulseDelay = DEFAULT_PULSE_ON;
     uint16_t pulseToOff = DEFAULT_PULSE_OFF;
-    uint16_t brightness = 0;
+    uint16_t brightness = 222;
     uint8_t pulseMode = PULSE_ON_MODE;
     uint8_t pulseColor = 0;
     uint32_t lastRunTime;

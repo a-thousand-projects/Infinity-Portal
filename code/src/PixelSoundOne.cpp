@@ -25,13 +25,13 @@ void PixelSoundOne::Begin()
     barPosition[0]= 1;
     barPositionDir[0]=1;
 
-    barPosition[1]= NUMPIXELS-2;
+    barPosition[1]= NUM_PIXELS-2;
     barPositionDir[1]=-1;
 
-    barPosition[2]= (NUMPIXELS/2)-1;
+    barPosition[2]= (NUM_PIXELS/2)-1;
     barPositionDir[2]=-1;
 
-    barPosition[3]= (NUMPIXELS/2)+1;
+    barPosition[3]= (NUM_PIXELS/2)+1;
     barPositionDir[3]=1;
 
     
@@ -160,29 +160,29 @@ void PixelSoundOne::RunStep()
             // NOTE  : Setting Neo's directly in NeoLibrary - causes error otherwise- dont know why!
             if (dbs+1 <= binSplitLow )                      
             {
-                pixelRing->neoPixels->setPixelColor(barPositionCalc,0X00FF00);
+                //todo pixelRing->neoPixels->setPixelColor(barPositionCalc,0X00FF00);
             }
 
             if(dbs+1 > binSplitLow && dbs+1 <= binSplitMid)
             {
-               pixelRing->neoPixels->setPixelColor(barPositionCalc,0XFFFF00);
+               //todo pixelRing->neoPixels->setPixelColor(barPositionCalc,0XFFFF00);
             }
                 
             if(dbs+1 > binSplitMid && dbs+1 <= binSplitHi)
             {
-                 pixelRing->neoPixels->setPixelColor(barPositionCalc,0XFF0000);
+                 //todo pixelRing->neoPixels->setPixelColor(barPositionCalc,0XFF0000);
             }
                 
         }
         for(uint8_t c=barValue[bin]+1;c<binSplitHi;c++)
         {
-            pixelRing->neoPixels->setPixelColor(barPosition[bin]+ c*barPositionDir[bin],0X000000);
+            //todo pixelRing->neoPixels->setPixelColor(barPosition[bin]+ c*barPositionDir[bin],0X000000);
         }
 
     }
-    pixelRing->neoPixels->setPixelColor(0,0x000FF0);
-    pixelRing->neoPixels->setPixelColor(NUMPIXELS-1,0x000FF0);
-    pixelRing->neoPixels->show();
+    //todo pixelRing->neoPixels->setPixelColor(0,0x000FF0);
+    //todo pixelRing->neoPixels->setPixelColor(NUMPIXELS-1,0x000FF0);
+    //todo pixelRing->neoPixels->show();
 
 
 }
