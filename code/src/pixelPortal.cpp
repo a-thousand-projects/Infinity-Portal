@@ -6,6 +6,14 @@
 #include "math.h"
 #include "hslColour.h"
 
+FASTLED_USING_NAMESPACE
+
+CHSV colorStart = CHSV(96,255,255);  // starting color
+CHSV colorTarget = CHSV(192,255,255);  // target color
+CHSV colorCurrent = colorStart;
+
+uint8_t blendRate = 5;  // How fast to blend.  Higher is slower.  [milliseconds]
+
 PixelPortal::PixelPortal(PixelRing *pr):PixelProgram(pr)
 {
 
@@ -13,42 +21,27 @@ PixelPortal::PixelPortal(PixelRing *pr):PixelProgram(pr)
 
 void PixelPortal::NextColor()
 {
-    uint32_t color = 0; //todo pixelRing->Wheel(pulseColor);
-    pulseColor +=pulseColorStep;
-    pixelRing->setRingColour(color);
+  
 }
 
 void PixelPortal::RunStep()
 {
-     double rad;
-     double b;
-    uint32_t now = millis();
-    if (now-lastRunTime < 1)
-        return;
 
-    rad = (((brightness)))*((M_PI /180));
-    b = sin(rad+(M_PI/4))+1;
-
-    //todo pixelRing->neoPixels->setBrightness(250* (b/2));
-
-    
-    brightness++;
-    
-    if (b==0)
-    {
-        NextColor();
+    EVERY_N_MILLISECONDS(blendRate){
+    static uint8_t k;  // the amount to blend [0-255]
+    if ( colorCurrent.h == colorTarget.h ) {  // Check if target has been reached
+      colorStart = colorCurrent;
+      colorTarget = CHSV(random8(),255,255);  // new target to transition toward
+      k = 0;  // reset k value
     }
-    pixelRing->show();
 
-    delay(10);
+    colorCurrent = blend(colorStart, colorTarget, k, SHORTEST_HUES);
+    fill_solid( pixelRing->pixelArray, NUM_PIXELS, colorCurrent );
+  //  pixelRing->pixelArray[0] = colorTarget;  // set first pixel to always show target color
+    k++;
+  }
 
-   if (brightness == 360)
-    brightness = 0;
-    
-    
-
-
-    lastRunTime = millis();
+  FastLED.show();  // update the display
 }
 
 void PixelPortal::SetValueOne(int16_t value)
@@ -74,11 +67,11 @@ void PixelPortal::Begin()
     Log.info("Pixel Portal Begin" CR);
     pixelRing->clear();
     pixelRing->setRingColour(INDIGO);
-    //todo pixelRing->neoPixels->setBrightness(0);
+    FastLED.setBrightness(brightness);
     SetPulseValues(DEFAULT_PULSE_ON,DEFAULT_PULSE_OFF);
     brightness = 0;
     lastRunTime = millis();
-
+    FastLED.show();
 }
 
 void PixelPortal::Clicked(uint8_t buttonNo)

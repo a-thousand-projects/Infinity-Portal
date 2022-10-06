@@ -77,7 +77,7 @@ void PixelColourWarp::Begin()
 {
     Log.info("Pixel Colour Warp" CR);
     pixelRing->clear();
-    //todo  pixelRing->neoPixels->setBrightness(255);
+    FastLED.setBrightness(255);
     
     ledCount = NUM_PIXELS;
     step = 360/ledCount;

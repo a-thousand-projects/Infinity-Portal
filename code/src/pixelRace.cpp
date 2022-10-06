@@ -19,8 +19,6 @@ PixelRace:: PixelRace(PixelRing *pr,uint8_t min, uint8_t max):PixelProgram(pr)
 
 void PixelRace::Clicked(uint8_t buttonNo)
 {
-    
-
     switch (buttonNo)
     {
         case BTN_UP: 
@@ -40,7 +38,7 @@ void PixelRace::Clicked(uint8_t buttonNo)
             // Select a new Random Color for each pixel
             for (uint8_t i = 0; i <PIXEL_RACE_NOOF_PIXELS;i++)
             {
-               //todo  pixelProperties[i].forgroundColour = pixelRing->Wheel(random(255));
+               pixelProperties[i].forgroundColour = pixelRing->Wheel(random(255));
                 
             }
         break;

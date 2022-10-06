@@ -26,15 +26,16 @@ class PixelRing
 {
     public:
         uint32_t ColorWheel[WHEEL_COLOR_COUNT] = {VIOLET,INDIGO,BLUE,GREEN,YELLOW,ORANGE,RED};
+        CRGB  pixelArray[NUM_PIXELS];
     protected: 
         
-        CRGBArray<NUM_PIXELS> pixelArray;
+        
         uint8_t adjustPos(int8_t pos);
     public:
         
         PixelRing();
         ~PixelRing();
-        void begin();
+        void begin();        
         void blinkRing(CRGB,uint8_t blinks, uint16_t delay);
         void rotate(int8_t numPos);
         void setRingColour(CRGB colour);

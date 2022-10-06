@@ -17,14 +17,15 @@ void PixelRing::begin()
 {
     FastLED.addLeds<LED_TYPE,DATA_PIN,COLOR_ORDER>(pixelArray,NUM_PIXELS).setCorrection(TypicalLEDStrip);
     Log.info("Pixel Ring: Begin" CR);
-  //  fill_rainbow(&pixelArray[0],NUM_PIXELS,HUE_RED,18);
- //   FastLED.show(); 
-    blinkRing(CRGB::Aqua,3,1000);
+    blinkRing(CRGB::Green,3,200);
 }
+
+
+
 
 void PixelRing::setRingColour(CRGB colour)
 {
-    FastLED.showColor(colour);
+    fill_solid(pixelArray,NUM_PIXELS,colour);
 }
 
 void PixelRing::show()
@@ -112,4 +113,19 @@ void PixelRing::blinkRing(CRGB colour,uint8_t blinks, uint16_t delayTime)
     }
 }
 
+
+uint32_t PixelRing::Wheel(byte WheelPos) {
+  if(WheelPos < 85) {
+    
+    return (WheelPos * 3<<16) | (255 - WheelPos * 3<< 8) |  0;
+  } 
+  else if(WheelPos < 170) {
+    WheelPos -= 85;
+    (255 - WheelPos * 3)<<16 |  0 |  (WheelPos * 3);
+  } 
+  else {
+    WheelPos -= 170;
+    0 << 16| (WheelPos * 3)<<8 |  (255 - WheelPos * 3);
+  }
+}
 

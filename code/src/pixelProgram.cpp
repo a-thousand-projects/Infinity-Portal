@@ -9,10 +9,10 @@ PixelProgram::PixelProgram(PixelRing *pr)
 PixelProgram::~PixelProgram()
 {}
 
-void PixelProgram::Begin(){
 
-}
-
+void PixelProgram::Begin(){};
+void PixelProgram::RunStep(){};
+void PixelProgram::PixelProgram::Clicked(uint8_t buttonNo){};
 
 
 void PixelProgram::AttachCallBackExit(void (*cback)(int))
@@ -23,14 +23,6 @@ void PixelProgram::AttachCallBackExit(void (*cback)(int))
 void PixelProgram::AttachCallBackEnter(void (*cback)(int))
 {
     fncBtnEnter = cback;
-}
-
-
-
-
-void PixelProgram::RunStep()
-{
-
 }
 
 
@@ -59,7 +51,8 @@ uint8_t PixelProgram::GetButtonState(uint8_t buttonNo)
     }
 }
 
- void PixelProgram::Clicked(uint8_t buttonNo){};
+ 
+
  void PixelProgram::LongPress(uint8_t buttonNo){
 
      if (buttonNo == BTN_ENTER && fncBtnEnter!=NULL)
