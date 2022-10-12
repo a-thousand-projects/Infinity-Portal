@@ -28,7 +28,7 @@ private:
     PixelProperties pixelProperties[PIXEL_RACE_NOOF_PIXELS];
     uint32_t forgroundColour;
     uint32_t backgroundColour;
-    uint8_t tail = 1;
+    uint8_t tail = 2;
 
     
 public:

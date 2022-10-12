@@ -12,6 +12,7 @@
 #define DC_OFFSET   340
 #define DISPLAY_BINS 4
 #define DEFAULT_DISPLAY_BIN_SIZE 15
+#define COLOUR_PALLET_MAX 5
 
 
 class PixelSoundOne: public PixelProgram
@@ -31,10 +32,12 @@ class PixelSoundOne: public PixelProgram
         int16_t  EQBins[DISPLAY_BINS] = {-300,-200,0,0};
         uint16_t data_avgs[DISPLAY_BINS];
         char sValue[10];
+        uint8_t  currentPallet = 0;
     public:
         PixelSoundOne(PixelRing *pr, int pin);
         void Begin();
         void RunStep();
+        void Clicked(uint8_t buttonNo);
 };
 
 #endif

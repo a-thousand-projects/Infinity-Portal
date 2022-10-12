@@ -38,14 +38,16 @@ void PixelRace::Clicked(uint8_t buttonNo)
             // Select a new Random Color for each pixel
             for (uint8_t i = 0; i <PIXEL_RACE_NOOF_PIXELS;i++)
             {
-               pixelProperties[i].forgroundColour = pixelRing->Wheel(random(255));
+                
+              // pixelProperties[i].forgroundColour = pixelRing->Wheel(random(255));
+               pixelProperties[i].forgroundColour = RainbowColors_p[random8(16)];
                 
             }
         break;
         case BTN_3:
-            tail ++;
+            tail +=2;
             if (tail > MAX_TAIL)
-                tail = 1;
+                tail = 2;
         break;
    }
 }
@@ -122,10 +124,9 @@ void PixelRace:: RunStep()
             pixelProperties[pos].stepControl = 0;
             pixelProperties[pos].position = pixelRing->Adjust(pixelProperties[pos].position+1);
           
-            backStep= pixelRing->Adjust(pixelProperties[pos].position - tail);
-            pixelRing->setPixel(backStep,backgroundColour);
-        
-            pixelRing->setPixel(pixelProperties[pos].position,pixelProperties[pos].forgroundColour);
+
+            pixelRing->pixelArray[pixelProperties[pos].position] +=pixelProperties[pos].forgroundColour; 
+          //  fadeUsingColor(&pixelRing->pixelArray[pixelProperties[pos].position],5,CRGB::Orange)            ;
         }
         else // just update current Position
         {
@@ -134,7 +135,7 @@ void PixelRace:: RunStep()
         
        
     }
-   
+    fadeToBlackBy(pixelRing->pixelArray,NUM_PIXELS,256/tail);
     pixelRing->show();
    
 }
