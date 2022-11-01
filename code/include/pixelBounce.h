@@ -7,20 +7,31 @@
 #include <stdio.h>
 
 
-#define MAX_BALLS 3
+#define MAX_BALLS 4
+
+typedef struct {
+    uint8_t state;
+    uint8_t pos;
+    uint8_t direction;
+    uint8_t speed;
+    uint16_t speedCounter;
+    CRGB colour;
+} ball_t;
 
 
 class PixelBounce: public PixelProgram
 {
 private:
-    double speed = 100;
-    double acceleration = 0;
+    ball_t balls[MAX_BALLS];
+    int16_t timeInSlot = 100;
+    int16_t ballTime = 0;
+    uint16_t acceleration = 0;
     uint8_t pos = 0;
     int8_t dir = 1;
-    const double gravity = 2;                   
+    const uint8_t termVelocity = 30;
+    double gravity = 1;                   
     double startHeight = 0;                  
     const double bouncyness = 2;
-    const double speedKnob = 4.0;                  
 public:
     PixelBounce(PixelRing *pr);
     ~PixelBounce();

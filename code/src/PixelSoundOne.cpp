@@ -177,9 +177,12 @@ void PixelSoundOne::RunStep()
             displayBins[bin]= reduced;
 
         binValue = displayBins[bin];
+        Serial.println(binValue);
         divider = displayBinDivider[bin];
-        barValCalc= ((binValue/divider)) * 15;
-        
+       // barValCalc= ((binValue/divider)) * 15;
+        barValCalc= ((binValue/divider));
+        if (barValCalc < 400)
+            barValCalc = 0;
         barValue[bin] = (int16_t)barValCalc;
 
    }
@@ -191,20 +194,21 @@ void PixelSoundOne::RunStep()
     int16_t barPositionCalc;
     int8_t barDir;
     
-    for (uint8_t bin=0;bin< 2 /**DISPLAY_BINS */;bin++)
+    for (uint8_t bin=0;bin< DISPLAY_BINS ;bin++)
     {
-        uint8_t i = map(barValue[bin],0,100,0,15);
+        uint8_t i = map(barValue[bin],0,5000,0,15);
         for (int8_t dbs=0;dbs<i;dbs++)
         {
 //            Serial.printf("Bin Value: %i\t dbs: %i\n", barValue[bin],dbs);
             uint32_t col = (*colourPallets[currentPallet])[dbs];
-            Serial.printf("%8x\t",col);
+//            Serial.printf("%8x\t",col);
             pixelRing->pixelArray[barPosition[bin] + (dbs * barPositionDir[bin]) ]= col;
         }
         Serial.println();
     }
+    // Add in Mid Lines (Top and Bottom)
     pixelRing->pixelArray[0] = 0x000FF0;
-    
+    pixelRing->pixelArray[NUM_PIXELS/2] = 0x000FF0; 
     fadeToBlackBy(pixelRing->pixelArray,NUM_PIXELS,32);
     FastLED.show();
 

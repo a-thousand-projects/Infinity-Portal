@@ -27,7 +27,7 @@ void PixelPortal::NextColor()
 void PixelPortal::RunStep()
 {
 
-    EVERY_N_MILLISECONDS(blendRate){
+   EVERY_N_MILLISECONDS(blendRate){
     static uint8_t k;  // the amount to blend [0-255]
     if ( colorCurrent.h == colorTarget.h ) {  // Check if target has been reached
       colorStart = colorCurrent;
@@ -37,11 +37,12 @@ void PixelPortal::RunStep()
 
     colorCurrent = blend(colorStart, colorTarget, k, SHORTEST_HUES);
     fill_solid( pixelRing->pixelArray, NUM_PIXELS, colorCurrent );
-  //  pixelRing->pixelArray[0] = colorTarget;  // set first pixel to always show target color
+  
     k++;
+   
   }
-
-  FastLED.show();  // update the display
+  
+  FastLED.show();   // update the display
 }
 
 void PixelPortal::SetValueOne(int16_t value)
@@ -69,7 +70,7 @@ void PixelPortal::Begin()
     pixelRing->setRingColour(INDIGO);
     FastLED.setBrightness(brightness);
     SetPulseValues(DEFAULT_PULSE_ON,DEFAULT_PULSE_OFF);
-    brightness = 0;
+  //  brightness = 0;
     lastRunTime = millis();
     FastLED.show();
 }

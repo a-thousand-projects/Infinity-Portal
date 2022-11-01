@@ -99,32 +99,34 @@ void MenuEnter(int menuId) {
 void ProgramExit(int num)
 {
   Log.infoln("Back to menu");
-    menu.Begin();
-    currentPixelProgram = &menu;
+  FastLED.clear();
+  FastLED.show();
+  menu.Begin();
+  currentPixelProgram = &menu;
 }
 
 
 
 void ButtonEventHandler(AceButton*  button , uint8_t eventType,uint8_t  buttonState )
 {
-  Log.info("Event %i" CR,eventType);
+//  Log.info("Event %i" CR,eventType);
   uint8_t btn = button->getPin();
   switch (eventType) {
     
     case AceButton::kEventClicked:
-      Log.info("Button %d Clicked" CR,btn);
+//      Log.info("Button %d Clicked" CR,btn);
       currentPixelProgram->Clicked(btn);
       break;
     case AceButton::kEventLongPressed:
-      Log.info("Button %d LONG Pressed" CR,btn);
+//      Log.info("Button %d LONG Pressed" CR,btn);
       currentPixelProgram->LongPress(btn);
       break;
     case AceButton::kEventPressed:
-      Log.info("Button %d Pressed Event" CR,btn);
+//      Log.info("Button %d Pressed Event" CR,btn);
       currentPixelProgram->ButtonStateChanged(btn,BUTTON_PRESSED);
       break;
     case AceButton::kEventReleased:
-      Log.info("Button %d Released Event" CR,btn);
+//      Log.info("Button %d Released Event" CR,btn);
       currentPixelProgram->ButtonStateChanged(btn,BUTTON_RELEASED);
       break;
   }

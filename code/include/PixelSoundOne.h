@@ -27,7 +27,7 @@ class PixelSoundOne: public PixelProgram
         uint16_t  displayBinsSize[DISPLAY_BINS] = {DEFAULT_DISPLAY_BIN_SIZE,DEFAULT_DISPLAY_BIN_SIZE,DEFAULT_DISPLAY_BIN_SIZE,DEFAULT_DISPLAY_BIN_SIZE};
         uint16_t barPosition[DISPLAY_BINS];
         int8_t barPositionDir[DISPLAY_BINS];
-        int16_t displayBinDivider[DISPLAY_BINS]={3000,1000,1000,1000};
+        double displayBinDivider[DISPLAY_BINS]={3,1,1,1};
         uint16_t barValue[DISPLAY_BINS];
         int16_t  EQBins[DISPLAY_BINS] = {-300,-200,0,0};
         uint16_t data_avgs[DISPLAY_BINS];
