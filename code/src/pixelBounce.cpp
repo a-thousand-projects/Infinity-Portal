@@ -74,7 +74,7 @@ void PixelBounce::RunStep()
     
     EVERY_N_MILLISECONDS(10)
     {
-        fadeToBlackBy(pixelRing->pixelArray,NUM_PIXELS,100);
+        fadeToBlackBy(pixelRing->pixelArray,NUM_PIXELS,64);
     }
     
     EVERY_N_MILLISECONDS(1)
